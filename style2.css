@@ -1,0 +1,38 @@
+html, body { height: 100%; }
+.calosc {
+    display: flex;
+    flex-direction: row;
+  }
+  .lewa-panel{
+    background-color: #0093E9;
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+    width: 25%;
+    height: auto;
+    color: white;
+  }
+  .logo {
+      text-align: center;
+      padding-top: 8px;
+  }
+    .linki{
+        padding-left: 20px;
+    }
+  .prawa-panel{
+    background-color: #edf6f9;
+    width: 75%;
+    height: auto;
+    text-align: center;
+    flex-direction: column;
+  }
+  .panel-prawa-gora{
+    text-align: right;
+    padding-right: 25px;
+    padding-top: 20px;
+    padding-bottom: 23px;
+    flex-direction: row;
+  }
+  .footer{
+    align-items: center;
+    text-align: center;
+    margin-top: 480px;
+  }
