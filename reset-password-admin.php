@@ -111,7 +111,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> 
             <div class="form-group">
                 <label>Nowe hasło:</label>
-                <input type="password" name="new_password" class="form-control style="width: 400px; <?php echo (!empty($new_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $new_password; ?>" >
+                <input type="password" name="new_password" class="form-control" style="width: 400px"; <?php echo (!empty($new_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $new_password; ?>" >
                 <span class="invalid-feedback"><?php echo $new_password_err; ?></span>
             </div>
             <br>

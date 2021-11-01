@@ -46,18 +46,55 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
                 <span style="margin-right: 20px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                     </svg> <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b></span>
-                <a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a><hr>
+                <a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a>
+                <hr>
             </div>
             <br>
-            <h1>Witamy w panelu czytelnika!</h1>
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <h1>🔒 Rezerwacje użytkownika @user </h1><br>
+            <div class="wyszukaj-czytelnika">
+            
+            <div class="input-group mb-4" style="width: 700px;">
+                <div class="input-group-text p-0">
+                    <select class="form-select form-select-lg shadow-none bg-light border-0" style="font-size: 14px;">
+                        <option>Numer rezerwacji</option>
+                        <option>Nazwa książki</option>
+                        <option>Numer książki</option>
+                    </select>
+                </div>
+                <input type="text" class="form-control" placeholder="Wyszukaj">
+                <button class="input-group-text shadow-none px-4 btn-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </button>
+            </div>
+                <br>
+                
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Numer rezerwacji</th>
+                            <th>Nazwa książki</th>
+                            <th>Numer książki</th>
+                            <th>Data rezerwacji</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Podstawy programowania w języku C++</td>
+                            <td>1/2137/69</td>
+                            <td>01.11.2021</td>
+                        </tr>
+                    </tbody>
+                </table>
+            <br><br><br><br><br><br><br><br><br><br><br>
+            </div>
             <div class="footer">
                 <hr>
                 <p>Projekt wykonał zespół P2/G4</p>
             </div>
         </div>
     </div>
-
-</body>
 
 </html>
