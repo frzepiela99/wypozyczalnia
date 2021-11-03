@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 01 Lis 2021, 21:30
--- Wersja serwera: 10.4.14-MariaDB
--- Wersja PHP: 7.4.11
+-- Czas generowania: 02 Lis 2021, 20:22
+-- Wersja serwera: 10.4.21-MariaDB
+-- Wersja PHP: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,7 +45,8 @@ CREATE TABLE `czytelnik` (
 
 INSERT INTO `czytelnik` (`Id_czytelnik`, `Imie`, `Nazwisko`, `Mail`, `Haslo`, `Nr_telefonu`, `Miejscowosc`, `Ulica`, `Nr_domu`) VALUES
 (1, 'Filip', 'Rzepiela', 'filiprzepiela@interia.pl', 'asasyn12', 587, 'Ropica Polska', '', '587'),
-(2, 'Filip', 'Rzepiela', 'filiprzepiela@gmail.com', '$2y$10$Xd9fU4lAWn3UEgYf5iyf5ufXmpFYT1xBtH/W5CHS760g5wD6H6Ynu', 123456789, 'Gorlice', 'Kwiatowa', '587');
+(2, 'Filip', 'Rzepiela', 'filiprzepiela@gmail.com', '$2y$10$Xd9fU4lAWn3UEgYf5iyf5ufXmpFYT1xBtH/W5CHS760g5wD6H6Ynu', 123456789, 'Gorlice', 'Kwiatowa', '587'),
+(3, 'Piotr', 'Piecuch', 'piotrekp2999@gmail.com', '$2y$10$jeJhEOlqrwS3RozKfpodlOX5LXJdBAM60e5rkizzQpkmSS.FDDnHO', 123456789, 'Łużna', 'Łużna', '303');
 
 -- --------------------------------------------------------
 
@@ -55,13 +56,23 @@ INSERT INTO `czytelnik` (`Id_czytelnik`, `Imie`, `Nazwisko`, `Mail`, `Haslo`, `N
 
 CREATE TABLE `ksiazki` (
   `id_ksiazki` int(11) NOT NULL,
-  `tytul` int(11) NOT NULL,
-  `autor` int(11) NOT NULL,
-  `gatunek` int(11) NOT NULL,
-  `wydawnictwo` int(11) NOT NULL,
-  `rok_wydania` int(11) NOT NULL,
+  `tytul` varchar(255) NOT NULL,
+  `autor` varchar(255) NOT NULL,
+  `gatunek` varchar(255) NOT NULL,
+  `wydawnictwo` varchar(255) NOT NULL,
+  `rok_wydania` varchar(255) NOT NULL,
   `zdjecie` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `ksiazki`
+--
+
+INSERT INTO `ksiazki` (`id_ksiazki`, `tytul`, `autor`, `gatunek`, `wydawnictwo`, `rok_wydania`, `zdjecie`) VALUES
+(1, 'Harry Pjoter', 'j.k Rowling', 'SCi-fi', 'Nowa era', '2005', ''),
+(2, 'Harry Pjoter', 'j.k Rowling', 'SCi-fi', 'Nowa era', '2005', ''),
+(3, 'Harry Pjoter', 'j.k Rowling', 'SCi-fi', 'Nowa era', '2002', ''),
+(4, 'Harry Pjoter', 'j.k Rowling', 'SCi-fi', 'Nowa era', '2001', '');
 
 -- --------------------------------------------------------
 
@@ -83,7 +94,8 @@ CREATE TABLE `pracownik` (
 --
 
 INSERT INTO `pracownik` (`Id_pracownik`, `Imie`, `Nazwisko`, `Mail`, `haslo`, `Nr_telefonu`) VALUES
-(1, 'Filip', 'Rzepiela', 'filiprzepiela@o2.pl', '$2y$10$Xd9fU4lAWn3UEgYf5iyf5ufXmpFYT1xBtH/W5CHS760g5wD6H6Ynu', 123456789);
+(1, 'Filip', 'Rzepiela', 'filiprzepiela@o2.pl', '$2y$10$Xd9fU4lAWn3UEgYf5iyf5ufXmpFYT1xBtH/W5CHS760g5wD6H6Ynu', 123456789),
+(2, 'Piotr', 'Piecuch', 'piotrekpp2999@gmail.com', '$2y$10$15P5RD/uq8jyjazHaht/L.vIoLm0V43UAgzQVcbyrU1CMqfGR.K0a', 123456789);
 
 -- --------------------------------------------------------
 
@@ -99,6 +111,14 @@ CREATE TABLE `rezerwacja` (
   `data_k_rez` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Zrzut danych tabeli `rezerwacja`
+--
+
+INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES
+(1, 3, 2, '2021-11-02', '2021-11-04'),
+(2, 3, 1, '2021-11-02', '2021-11-10');
+
 -- --------------------------------------------------------
 
 --
@@ -110,8 +130,16 @@ CREATE TABLE `wypozyczenia` (
   `id_czytelnik` int(11) NOT NULL,
   `id_ksiazki` int(11) NOT NULL,
   `data_wyp` date NOT NULL,
-  `data_zwrotu` date NOT NULL
+  `data_zwrotu` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `wypozyczenia`
+--
+
+INSERT INTO `wypozyczenia` (`id_wyp`, `id_czytelnik`, `id_ksiazki`, `data_wyp`, `data_zwrotu`) VALUES
+(3, 3, 2, '2021-11-02', '2021-11-03'),
+(4, 3, 2, '2021-11-01', NULL);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -155,31 +183,31 @@ ALTER TABLE `wypozyczenia`
 -- AUTO_INCREMENT dla tabeli `czytelnik`
 --
 ALTER TABLE `czytelnik`
-  MODIFY `Id_czytelnik` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_czytelnik` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT dla tabeli `ksiazki`
 --
 ALTER TABLE `ksiazki`
-  MODIFY `id_ksiazki` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_ksiazki` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT dla tabeli `pracownik`
 --
 ALTER TABLE `pracownik`
-  MODIFY `Id_pracownik` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id_pracownik` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT dla tabeli `rezerwacja`
 --
 ALTER TABLE `rezerwacja`
-  MODIFY `id_rez` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_rez` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT dla tabeli `wypozyczenia`
 --
 ALTER TABLE `wypozyczenia`
-  MODIFY `id_wyp` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_wyp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
