@@ -4,6 +4,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     header("location: index.php");
     exit;
 }
+require("config.php");
 // Define variables and initialize with empty values
 $new_password = $confirm_password = "";
 $new_password_err = $confirm_password_err = "";
@@ -13,31 +14,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate new password
     if (empty(trim($_POST["new_password"]))) {
-        $new_password_err = "Please enter the new password.";
-    } elseif (strlen(trim($_POST["new_password"])) < 6) {
-        $new_password_err = "Password must have atleast 6 characters.";
+        $new_password_err = "Proszę wpisać nowe hasło.";
+    } elseif (strlen(trim($_POST["new_password"])) < 8) {
+        $new_password_err = "Hasło musi mieć przynajmniej 8 znaków.";
     } else {
         $new_password = trim($_POST["new_password"]);
     }
-
     // Validate confirm password
     if (empty(trim($_POST["confirm_password"]))) {
-        $confirm_password_err = "Please confirm the password.";
+        $confirm_password_err = "Proszę potwierdzić hasło.";
     } else {
         $confirm_password = trim($_POST["confirm_password"]);
         if (empty($new_password_err) && ($new_password != $confirm_password)) {
-            $confirm_password_err = "Password did not match.";
+            $confirm_password_err = "Hasła się nie zgadzają.";
         }
     }
 
     // Check input errors before updating the database
     if (empty($new_password_err) && empty($confirm_password_err)) {
         // Prepare an update statement
-        $sql = "UPDATE users SET password = ? WHERE id = ?";
+        $sql = "UPDATE czytelnik SET Haslo = ? WHERE id_czytelnik = ?";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "si", $param_password, $param_id);
+            mysqli_stmt_bind_param($stmt, "ss", $param_password, $param_id);
 
             // Set parameters
             $param_password = password_hash($new_password, PASSWORD_DEFAULT);
@@ -47,10 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (mysqli_stmt_execute($stmt)) {
                 // Password updated successfully. Destroy the session, and redirect to login page
                 session_destroy();
-                header("location: login.php");
+                header("location: index.php");
                 exit();
             } else {
-                echo "Oops! Something went wrong. Please try again later.";
+                echo "Oops! Coś poszło nie tak.";
             }
 
             // Close statement
@@ -87,13 +87,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="menu">
                 <h4 style="text-align: center;">Panel czytelnika</h4><br>
                 <div class="linki">
-                    <a href="./panel-czyt.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🏠 Panel Czytelnika</button></a><br>
-                    <a href="./pokaz-rezerwacje.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📃 Pokaż rezerwacje</button></a><br>
+                    <a href="./panel-czyt.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🏠 Panel Czytelnika</button></a><br><br>
+                    <a href="./pokaz-rezerwacje.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📃 Pokaż rezerwacje</button></a><br><br>
 
-                    <a href="./historia.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🗃 Historia wypożyczeń</button></a><br>
+                    <a href="./wypozyczenia-czytelnik.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🗃 Pokaż wypożyczenia</button></a><br><br>
+                    <a href="./historia.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🗃 Historia wypożyczeń</button></a><br><br>
 
-                    <a href="./reset-password.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔏 Zmień hasło</button></a><br>
-                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📙 Biblioteka</button></a><br>
+                    <a href="./reset-password.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔏 Zmień hasło</button></a><br><br>
+                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📙 Biblioteka</button></a><br><br>
                 </div>
             </div>
         </div>

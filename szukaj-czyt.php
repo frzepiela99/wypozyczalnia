@@ -4,6 +4,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     header("location: index.php");
     exit;
 }
+require("config.php");
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -80,36 +81,26 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
                             <th>Dane</th>
                             <th>Rezerwacje</th>
                             <th>Wypożyczenia</th>
+                            <th>Historia</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Paweł</td>
-                            <td>Smoła</td>
-                            <td>pawelsmola@gmail.com</td>
-                            <td><a href="./dane.php"><button type="button" class="btn-sm btn-danger">Dane</button></a></td>
-                            <td><a href="./rezerwacje.php"><button type="button" class="btn-sm btn-success">Rezerwacje</button></a></td>
-                            <td><a href="./wypozyczenia.php"><button type="button" class="btn-sm btn-info">Wypożyczenia</button></a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Paweł</td>
-                            <td>Smoła</td>
-                            <td>pawelsmola@gmail.com</td>
-                            <td><a href="./dane.php"><button type="button" class="btn-sm btn-danger">Dane</button></a></td>
-                            <td><a href="./rezerwacje.php"><button type="button" class="btn-sm btn-success">Rezerwacje</button></a></td>
-                            <td><a href="./wypozyczenia.php"><button type="button" class="btn-sm btn-info">Wypożyczenia</button></a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Paweł</td>
-                            <td>Smoła</td>
-                            <td>pawelsmola@gmail.com</td>
-                            <td><a href="./dane.php"><button type="button" class="btn-sm btn-danger">Dane</button></a></td>
-                            <td><a href="./rezerwacje.php"><button type="button" class="btn-sm btn-success">Rezerwacje</button></a></td>
-                            <td><a href="./wypozyczenia.php"><button type="button" class="btn-sm btn-info">Wypożyczenia</button></a></td>
-                        </tr>
+
+                    <?php
+
+$wynik = mysqli_query($link, 'SELECT Id_czytelnik, Imie, Nazwisko, Mail FROM czytelnik');
+$i = 1;
+while ($row = mysqli_fetch_array($wynik)) {
+    echo "<tr><th scope='row'>" . $i . "</th><td>" . $row['Imie'] . "</td><td>" . $row['Nazwisko'] . "</td><td>" . $row['Mail'] . "</td><td><a href='./dane.php?id_czyt=".$row['Id_czytelnik']."'><button type='button' class='btn-sm btn-danger'>Dane</button></a></td>
+    <td><a href='./rezerwacje.php?id_czyt=".$row['Id_czytelnik']."''.php'><button type='button' class='btn-sm btn-success'>Rezerwacje</button></a></td>
+    <td><a href='./wypozyczenia.php?id_czyt=".$row['Id_czytelnik']."'.php'><button type='button' class='btn-sm btn-info'>Wypożyczenia</button></a></td><td><a href='./historia_czyt.php?id_czyt=".$row['Id_czytelnik']."'.php'><button type='button' class='btn-sm btn-info'>Historia wypożyczeń</button></a></td>
+</tr>";
+$i++;
+}
+
+
+
+                    ?>
                     </tbody>
                 </table>
             <br><br><br><br><br>

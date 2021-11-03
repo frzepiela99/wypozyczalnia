@@ -30,13 +30,14 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
             <div class="menu">
                 <h4 style="text-align: center;">Panel czytelnika</h4><br>
                 <div class="linki">
-                    <a href="./panel-czyt.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🏠 Panel Czytelnika</button></a><br>
-                    <a href="./pokaz-rezerwacje.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📃 Pokaż rezerwacje</button></a><br>
+                    <a href="./panel-czyt.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🏠 Panel Czytelnika</button></a><br><br>
+                    <a href="./pokaz-rezerwacje.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📃 Pokaż rezerwacje</button></a><br><br>
 
-                    <a href="./historia.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🗃 Historia wypożyczeń</button></a><br>
+                    <a href="./wypozyczenia-czytelnik.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🗃 Pokaż wypożyczenia</button></a><br><br>
+                    <a href="./historia.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🗃 Historia wypożyczeń</button></a><br><br>
 
-                    <a href="./reset-password.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔏 Zmień hasło</button></a><br>
-                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📙 Biblioteka</button></a><br>
+                    <a href="./reset-password.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔏 Zmień hasło</button></a><br><br>
+                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📙 Biblioteka</button></a><br><br>
                 </div>
             </div>
         </div>

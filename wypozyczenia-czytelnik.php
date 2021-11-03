@@ -50,18 +50,10 @@ require("config.php");
                 <hr>
             </div>
             <br>
-            <h1>📚 Historia wypożyczeń użytkownika @user </h1><br>
+            <h1>📚 Wypożyczenia użytkownika @user </h1><br>
             <div class="wyszukaj-czytelnika">
             
-            <div class="input-group mb-4" style="width: 700px;">
-                
-                <input type="text" class="form-control" placeholder="Wyszukaj tytuł">
-                <button class="input-group-text shadow-none px-4 btn-warning">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                    </svg>
-                </button>
-            </div>
+           
                 <br>
                 
                 <table class="table table-striped">
@@ -75,7 +67,7 @@ require("config.php");
                     <tbody>
                     <?php
                         $id = $_SESSION['id'];
-                        $wynik = mysqli_query($link, 'SELECT * from wypozyczenia, ksiazki where wypozyczenia.id_czytelnik=' . $id . ' and wypozyczenia.id_ksiazki=ksiazki.id_ksiazki and data_zwrotu IS NOT null');
+                        $wynik = mysqli_query($link, 'SELECT * from wypozyczenia, ksiazki where wypozyczenia.id_czytelnik=' . $id . ' and wypozyczenia.id_ksiazki=ksiazki.id_ksiazki and data_zwrotu IS null');
                         while ($row = mysqli_fetch_array($wynik)) {
                             echo "<tr><td>" . $row['tytul'] . "</td><td>" . $row['data_wyp'] . "</td><td>" . $row['data_zwrotu'] . "</td></tr>";
                         }

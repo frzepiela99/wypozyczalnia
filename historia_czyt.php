@@ -77,16 +77,15 @@ require("config.php");
                             <th>Tytuł książki</th>
                             <th>Data wypożyczenia</th>
                             <th>Data zwrotu</th>
-                            <th>Zwrot</th>
                         </tr>
                     </thead>
                     <tbody>
 
                     <?php
                         $id_czyt = $_GET['id_czyt'];
-                        $wynik = mysqli_query($link, 'SELECT * from wypozyczenia, ksiazki where wypozyczenia.id_czytelnik=' . $id_czyt . ' and wypozyczenia.id_ksiazki=ksiazki.id_ksiazki and data_zwrotu IS null');
+                        $wynik = mysqli_query($link, 'SELECT * from wypozyczenia, ksiazki where wypozyczenia.id_czytelnik=' . $id_czyt . ' and wypozyczenia.id_ksiazki=ksiazki.id_ksiazki and data_zwrotu is not null');
                         while ($row = mysqli_fetch_array($wynik)) {
-                            echo "<tr><td>" . $row['tytul'] . "</td><td>" . $row['data_wyp'] . "</td><td>" . $row['data_zwrotu'] . "</td><td><a href='./zwroc.php'><button type='button' class='btn-sm btn-info'>Zwróć</button></a></td></tr>";
+                            echo "<tr><td>" . $row['tytul'] . "</td><td>" . $row['data_wyp'] . "</td><td>" . $row['data_zwrotu'] . "</td></tr>";
                         }
                         ?>
                         

@@ -4,6 +4,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     header("location: index.php");
     exit;
 }
+require("config.php");
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -30,13 +31,14 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
             <div class="menu">
                 <h4 style="text-align: center;">Panel czytelnika</h4><br>
                 <div class="linki">
-                    <a href="./panel-czyt.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🏠 Panel Czytelnika</button></a><br>
-                    <a href="./pokaz-rezerwacje.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📃 Pokaż rezerwacje</button></a><br>
+                    <a href="./panel-czyt.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🏠 Panel Czytelnika</button></a><br><br>
+                    <a href="./pokaz-rezerwacje.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📃 Pokaż rezerwacje</button></a><br><br>
 
-                    <a href="./historia.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🗃 Historia wypożyczeń</button></a><br>
+                    <a href="./wypozyczenia-czytelnik.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🗃 Pokaż wypożyczenia</button></a><br><br>
+                    <a href="./historia.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🗃 Historia wypożyczeń</button></a><br><br>
 
-                    <a href="./reset-password.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔏 Zmień hasło</button></a><br>
-                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📙 Biblioteka</button></a><br>
+                    <a href="./reset-password.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔏 Zmień hasło</button></a><br><br>
+                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📙 Biblioteka</button></a><br><br>
                 </div>
             </div>
         </div>
@@ -52,43 +54,29 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
             <br>
             <h1>🔒 Rezerwacje użytkownika @user </h1><br>
             <div class="wyszukaj-czytelnika">
-            
-            <div class="input-group mb-4" style="width: 700px;">
-                <div class="input-group-text p-0">
-                    <select class="form-select form-select-lg shadow-none bg-light border-0" style="font-size: 14px;">
-                        <option>Numer rezerwacji</option>
-                        <option>Nazwa książki</option>
-                        <option>Numer książki</option>
-                    </select>
-                </div>
-                <input type="text" class="form-control" placeholder="Wyszukaj">
-                <button class="input-group-text shadow-none px-4 btn-warning">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                    </svg>
-                </button>
-            </div>
-                <br>
+
                 
+                <br>
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Numer rezerwacji</th>
-                            <th>Nazwa książki</th>
-                            <th>Numer książki</th>
+                            <th>Tytuł książki</th>
                             <th>Data rezerwacji</th>
+                            <th>Koniec rezerwacji</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Podstawy programowania w języku C++</td>
-                            <td>1/2137/69</td>
-                            <td>01.11.2021</td>
-                        </tr>
+                        <?php
+                        $id = $_SESSION['id'];
+                        $wynik = mysqli_query($link, 'SELECT * from rezerwacja, ksiazki where rezerwacja.id_czytelnik=' . $id . ' and rezerwacja.id_ksiazki=ksiazki.id_ksiazki');
+                        while ($row = mysqli_fetch_array($wynik)) {
+                            echo "<tr><td>" . $row['tytul'] . "</td><td>" . $row['data_rez'] . "</td><td>" . $row['data_k_rez'] . "</td></tr>";
+                        }
+                        ?>
                     </tbody>
                 </table>
-            <br><br><br><br><br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br><br><br><br><br>
             </div>
             <div class="footer">
                 <hr>

@@ -4,6 +4,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     header("location: index.php");
     exit;
 }
+require("config.php");
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -72,29 +73,29 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th>ID</th>
                             <th>Imię</th>
                             <th>Nazwisko</th>
                             <th>E-Mail</th>
+                            <th>Numer telefonu</th>
                             <th>Miejsce zamieszkanie</th>
                             <th>Ulica</th>
                             <th>Numer domu</th>
-                            <th>Numer telefonu</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row"></th>
-                            <th>1</th>
-                            <td>Paweł</td>
-                            <td>Smoła</td>
-                            <td>pawelsmola@gmail.com</td>
-                            <td>Łosie</td>
-                            <td>Łosie</td>
-                            <td>123</td>
-                            <td>123456789</td>
-                        </tr>
+
+                    <?php
+                    $id_czyt=$_GET['id_czyt'];
+$id = $_SESSION['id'];
+$wynik = mysqli_query($link, 'SELECT Imie, Nazwisko, Mail, Nr_telefonu, Miejscowosc, Ulica, Nr_domu FROM czytelnik WHERE Id_czytelnik ='.$id_czyt );
+while ($row = mysqli_fetch_array($wynik)) {
+    echo "<tr><td>" . $row['Imie'] . "</td><td>" . $row['Nazwisko'] . "</td><td>" . $row['Mail'] . "</td><td>" . $row['Nr_telefonu'] . "</td><td>" . $row['Miejscowosc'] . "</td><td>" . $row['Ulica'] . "</td><td>" . $row['Nr_domu'] . "</td></tr>";
+}
+
+                    ?>
+
+
                     </tbody>
                 </table>
             <br><br><br><br><br><br><br><br><br><br>
