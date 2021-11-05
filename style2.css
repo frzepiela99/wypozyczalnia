@@ -1,7 +1,8 @@
-html, body { height: 100%; }
+html, body { height: 100%; width: 100%; background-attachment: fixed; }
 .calosc {
     display: flex;
     flex-direction: row;
+    height: 100%;
   }
   .lewa-panel{
     background-color: #0093E9;

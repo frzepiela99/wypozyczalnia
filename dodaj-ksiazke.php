@@ -4,6 +4,58 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION[
     header("location: index.php");
     exit;
 }
+require("config.php");
+$ostatni=0;
+$ostatni=$ostatni.".png";
+$wynikn = mysqli_query($link, 'SELECT id_ksiazki FROM `ksiazki` ORDER BY id_ksiazki DESC LIMIT 1');
+            while ($row = mysqli_fetch_array($wynikn)) { 
+                $ostatni=$row['id_ksiazki']+1;
+                $ostatni=$ostatni.".png";
+                //echo $ostatni;
+            }
+         
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // collect value of input field
+    $tytul = $_POST['tytul'];
+    $autor = $_POST['autor'];
+    $nr_ksiazki = $_POST['nr_ksiazki'];
+    $gatunek = $_POST['gatunek'];
+    $wydawnictwo = $_POST['wydawnictwo'];
+    $rok_wyd = $_POST['rok_wyd'];
+    $opis = $_POST['opis'];
+ 
+
+    /*
+    echo $tytul."<br>";
+    echo $autor."<br>";
+    echo $nr_ksiazki."<br>";
+    echo $gatunek."<br>";
+    echo $wydawnictwo."<br>";
+    echo $rok_wyd."<br>";
+    echo $opis."<br>";
+    */
+
+    if (empty($tytul)||empty($autor) || empty($nr_ksiazki)|| empty($gatunek)|| empty($wydawnictwo)|| empty($rok_wyd)) 
+    {
+      echo "Uzupełnij wszystkie dane";
+      
+    } 
+    else {
+        if(isset($_FILES['zdjecie'])){
+            
+            $file_name = $_FILES['zdjecie']['name'];
+            $file_tmp =$_FILES['zdjecie']['tmp_name'];
+          //echo $ostatni;
+            $wynikn = mysqli_query($link, "INSERT INTO `ksiazki` (`id_ksiazki`, `tytul`, `autor`, `gatunek`, `wydawnictwo`, `rok_wydania`, `zdjecie`, `stan`, `ilosc`) VALUES (NULL, '$tytul', '$autor', '$gatunek', '$wydawnictwo', '$rok_wyd', '$ostatni', '0', '$nr_ksiazki')");
+        move_uploaded_file($file_tmp,"zdjecie/".$ostatni);
+        
+
+
+  }
+}
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -50,24 +102,24 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION[
             <h1>📖 Dodaj książkę!</h1><br>
             
             <div class="formularz-dodania-ksiazki">
-                <form>
+                <form method="post" action="dodaj-ksiazke.php" enctype="multipart/form-data">
                     <label for="tytul">Tytuł</label>
-                    <input type="text" class="form-control" id="tytul" placeholder="Wpisz Tytuł" style="width: 400px;">
+                    <input type="text" class="form-control" id="tytul" name="tytul" placeholder="Wpisz Tytuł" style="width: 400px;">
                     <label for="autor">Autor</label>
-                    <input type="text" class="form-control" id="autor" placeholder="Wpisz autora">
-                    <label for="nr_ksiazki">Numer książki</label>
-                    <input type="number" class="form-control" id="nr_ksiazki" placeholder="Wpisz numer książki">
+                    <input type="text" class="form-control" id="autor" name="autor" placeholder="Wpisz autora">
+                    <label for="nr_ksiazki">Ilość książki</label>
+                    <input type="number" class="form-control" id="nr_ksiazki" name="nr_ksiazki" placeholder="Wpisz ilość książek">
                     <label for="gatunek">Gatunek</label>
-                    <input type="text" class="form-control" id="gatunek" placeholder="Wpisz gatunek">
+                    <input type="text" class="form-control" id="gatunek" name="gatunek" placeholder="Wpisz gatunek">
                     <label for="wydawnictwo">Wydawnictwo</label>
-                    <input type="text" class="form-control" id="wydawnictwo" placeholder="Wpisz nazwe wydawnictwa">
+                    <input type="text" class="form-control" id="wydawnictwo" name="wydawnictwo" placeholder="Wpisz nazwe wydawnictwa">
                     <label for="rok_wyd">Rok wydania</label>
-                    <input type="number" class="form-control" id="rok_wyd" placeholder="Wpisz rok wydania">
+                    <input type="number" class="form-control" id="rok_wyd" name="rok_wyd" placeholder="Wpisz rok wydania">
                     <label for="opis">Opis</label>
-                    <textarea class="form-control" id="opis" rows="3"></textarea>
+                    <textarea class="form-control" id="opis" name="opis" rows="3"></textarea>
                     <br>
                     <label for="przykladoweWysylaniePliku">Zdjęcie okładki</label>
-                    <input type="file" class="form-control-file" id="przykladoweWysylaniePliku">
+                    <input type="file" class="form-control-file" id="przykladoweWysylaniePliku" name="zdjecie">
                     <br><br>
                     <input type="submit" class="btn btn-primary" value="Dodaj książkę">
                 </form>

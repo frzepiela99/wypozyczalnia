@@ -64,59 +64,71 @@ session_start();
     </header>
 
     <div class="content">
+    <h2>📒🔝 TOP 3 najczęściej wypożyczane książki</h2>
+        <br>
+        <div class="ksiazki">
+
+                <div class='card'>
+                <img src="./zdjecie/11.png" class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                <hr>
+                <div class='card-body' style='text-align: center;'>
+                    <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
+                    <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                    <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
+                    <button type='button' class='btn btn-success'>Wypożycz</button>
+                </div>
+            </div>
+            <div class='card'>
+                <img src="./zdjecie/11.png" class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                <hr>
+                <div class='card-body' style='text-align: center;'>
+                    <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
+                    <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                    <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
+                    <button type='button' class='btn btn-success'>Wypożycz</button>
+                </div>
+            </div>
+            <div class='card'>
+                <img src="./zdjecie/11.png" class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                <hr>
+                <div class='card-body' style='text-align: center;'>
+                    <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
+                    <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                    <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
+                    <button type='button' class='btn btn-success'>Wypożycz</button>
+                </div>
+            </div>
+        </div>
+
         <h2>🆕 Nowości</h2>
         <br>
         <div class="ksiazki">
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body" style="text-align: center;">
-                    <p class="card-text" style="font-weight:600; text-align: center;">Podstawy programowania w języku C++.</p>
-                    <p class="card-text" style="text-align: center;">Józef Zieliński</p>
-                    <p class="card-text" style="text-align: center; color:green;">Dostępna</p>
-                    <button type="button" class="btn btn-success">Wypożycz</button>
 
-
-                </div>
-
-            </div>
-
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body" style="text-align: center;">
-                    <p class="card-text" style="font-weight:600; text-align: center;">Podstawy programowania w języku C++.</p>
-                    <p class="card-text" style="text-align: center;">Józef Zieliński</p>
-                    <p class="card-text" style="text-align: center; color:#fd078e;">Wypożyczona</p>
-                    <button type="button" class="btn btn-primary">Zapisz się</button>
-
-
+        <?php
+                        
+            require("config.php");
+            $wynikn = mysqli_query($link, 'SELECT * FROM `ksiazki` WHERE stan =0 ORDER BY id_ksiazki DESC limit 5');
+            while ($row = mysqli_fetch_array($wynikn)) { 
+                echo "
+                <div class='card'>
+                <img src='zdjecie/". $row['zdjecie']."' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                <hr>
+                <div class='card-body' style='text-align: center;'>
+                    <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
+                    <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                    <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
+                    <button type='button' class='btn btn-success'>Wypożycz</button>
                 </div>
             </div>
-
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body" style="text-align: center;">
-                    <p class="card-text" style="font-weight:600; text-align: center;">Podstawy programowania w języku C++.</p>
-                    <p class="card-text" style="text-align: center;">Józef Zieliński</p>
-                    <p class="card-text" style="text-align: center; color:grey;">Wycofana</p>
-                    <button type="button" class="btn btn-light disabled">Niedostępna</button>
+                ";
+                }
 
 
-                </div>
-            </div>
+        ?>
 
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-            </div>
 
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-            </div>
+        
+           
             <div class="wincyj" style="height: 10%; margin-left:10px; margin-top: 46%;">
                 <a href="./nowosci.php"><button type="button" class="btn-circle btn-danger">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
@@ -149,111 +161,84 @@ session_start();
         </div>
         <br>
         <div class="ksiazki">
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body" style="text-align: center;">
-                    <p class="card-text" style="font-weight:600; text-align: center;">Podstawy programowania w języku C++.</p>
-                    <p class="card-text" style="text-align: center;">Józef Zieliński</p>
-                    <p class="card-text" style="text-align: center; color:green;">Dostępna</p>
-                    <button type="button" class="btn btn-success">Wypożycz</button>
 
+            
+                   <?php
 
-                </div>
-
-            </div>
-
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body" style="text-align: center;">
-                    <p class="card-text" style="font-weight:600; text-align: center;">Podstawy programowania w języku C++.</p>
-                    <p class="card-text" style="text-align: center;">Józef Zieliński</p>
-                    <p class="card-text" style="text-align: center; color:#fd078e;">Wypożyczona</p>
-                    <button type="button" class="btn btn-primary">Zapisz się</button>
-
-
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body" style="text-align: center;">
-                    <p class="card-text" style="font-weight:600; text-align: center;">Podstawy programowania w języku C++.</p>
-                    <p class="card-text" style="text-align: center;">Józef Zieliński</p>
-                    <p class="card-text" style="text-align: center; color:grey;">Wycofana</p>
-                    <button type="button" class="btn btn-light disabled">Niedostępna</button>
-
-
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-            </div>
-
-
-        </div>
-        <br>
-        <div class="ksiazki">
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body" style="text-align: center;">
-                    <p class="card-text" style="font-weight:600; text-align: center;">Podstawy programowania w języku C++.</p>
-                    <p class="card-text" style="text-align: center;">Józef Zieliński</p>
-                    <p class="card-text" style="text-align: center; color:green;">Dostępna</p>
-                    <button type="button" class="btn btn-success">Wypożycz</button>
-
-
-                </div>
-
-            </div>
-
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body" style="text-align: center;">
-                    <p class="card-text" style="font-weight:600; text-align: center;">Podstawy programowania w języku C++.</p>
-                    <p class="card-text" style="text-align: center;">Józef Zieliński</p>
-                    <p class="card-text" style="text-align: center; color:#fd078e;">Wypożyczona</p>
-                    <button type="button" class="btn btn-primary">Zapisz się</button>
-
-
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body" style="text-align: center;">
-                    <p class="card-text" style="font-weight:600; text-align: center;">Podstawy programowania w języku C++.</p>
-                    <p class="card-text" style="text-align: center;">Józef Zieliński</p>
-                    <p class="card-text" style="text-align: center; color:grey;">Wycofana</p>
-                    <button type="button" class="btn btn-light disabled">Niedostępna</button>
-
-
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <img src="https://emp-scs-uat.img-osdw.pl/img-p/1/kipwn/d576082e/std/2bc-452/105533208o.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-            </div>
+                       $liczba=0;
+                        $wynik = mysqli_query($link, 'SELECT * FROM `ksiazki` WHERE stan=0');
+                        while ($row = mysqli_fetch_array($wynik)) {
+                            if($liczba%5==0)
+                            {   
+                                if($liczba>0)
+                                {
+                                echo "</div>
+                                <div class='ksiazki'>
+                                ";
+                                }
+                            }
+                            echo "
+                            <div class='card'>
+                            <img src='zdjecie/". $row['zdjecie']."' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                            <hr>
+                            <div class='card-body' style='text-align: center;'>
+                                <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
+                                <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                                <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
+                                <button type='button' class='btn btn-success'>Wypożycz</button>
+                            </div>
+                        </div>
+                            ";
+                            $liczba=$liczba+1;
+                            
+                            }
+                            $wynik1 = mysqli_query($link, 'SELECT * FROM `ksiazki` WHERE stan=1');
+                            while ($row = mysqli_fetch_array($wynik1)) { 
+                                if($liczba%5==0)
+                            {
+                                echo "</div>
+                                <div class='ksiazki'>
+                                ";
+                            }
+                                echo "
+                                <div class='card'>
+                                <img src='zdjecie/". $row['zdjecie']."' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                                <hr>
+                                <div class='card-body' style='text-align: center;'>
+                                    <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
+                                    <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                                    <p class='card-text' style='text-align: center; color:#fd078e;'>Wypożyczona</p>
+                                    <button type='button' class='btn btn-primary'>Zapisz się</button>
+                                </div>
+                            </div>
+                                ";
+                                $liczba=$liczba+1;
+                                
+                                }
+                                $wynik2 = mysqli_query($link, 'SELECT * FROM `ksiazki` WHERE stan=2');
+                                while ($row = mysqli_fetch_array($wynik2)) { 
+                                    if($liczba%5==0)
+                            {
+                                echo "</div>
+                                <div class='ksiazki'>
+                                ";
+                            }
+                                    echo "
+                                    <div class='card'>
+                                    <img src='zdjecie/". $row['zdjecie']."' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                                    <hr>
+                                    <div class='card-body' style='text-align: center;'>
+                                        <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
+                                        <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                                        <p class='card-text' style='text-align: center; color:grey;'>Wycofana</p>
+                                        <button type='button' class='btn btn-light disabled'>Niedostępna</button>
+                                    </div>
+                                </div>
+                                    ";
+                                    $liczba=$liczba+1;
+                                    
+                                    }
+                        ?>
 
 
         </div>

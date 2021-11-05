@@ -268,7 +268,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="submit" class="btn btn-primary" value="Utwórz">
                     <input type="reset" class="btn btn-secondary ml-2" value="Reset">
                 </div>
-                <p>Masz już konto? <a href="login-user.php">Zaloguj się!</a>.</p>
+                <p>Masz już konto? 🤔 <a href="login-user.php">Zaloguj się!</a>.</p>
             </form>
         </div>
     </div>

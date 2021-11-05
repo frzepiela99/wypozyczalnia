@@ -40,7 +40,6 @@ body { margin: 0; background-image: url(./img/bg.png); font-family: Roboto, "Hel
     margin: 0 16px;
   }
 
-
   .content {
     display: flex;
     margin: 82px auto 32px;
@@ -53,10 +52,13 @@ body { margin: 0; background-image: url(./img/bg.png); font-family: Roboto, "Hel
 .ksiazki {
     display: flex;
     flex-direction: row;
+    
 }
 .card{
-    width: 19%;
+    width: 180px;
+    height: 500px;
     margin-left: 20px;
+    margin-bottom: 20px;
 }
 .wyszukaj {
     display: flex;

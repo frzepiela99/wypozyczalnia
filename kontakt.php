@@ -81,6 +81,7 @@ session_start();
                 <div class="col-md-9">
                     <h3>📋 Formularz kontaktowy:</h3><br>
                     <div class="contact-form" style="align-items: center;">
+                     <form action="mail.php" method="POST">
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="fname">Imię:</label>
                             <div class="col-sm-10">
@@ -102,7 +103,7 @@ session_start();
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="comment">Wiadomość:</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" rows="5" id="comment"></textarea>
+                                <textarea class="form-control" rows="5" name="message"></textarea>
                             </div>
                         </div>
                         <br>
@@ -111,6 +112,7 @@ session_start();
                                 <button type="submit" class="btn btn-warning">Wyślij</button>
                             </div>
                         </div>
+                     </form>
                     </div>
                 </div>
             </div>
