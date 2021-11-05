@@ -15,7 +15,7 @@ session_start();
     <link rel="stylesheet" href="./css/bootstrap.css">
 </head>
 
-<body>
+<body style="background-image: url(./img/bg.png); background-attachment: fixed;">
     <header>
 
 
@@ -62,9 +62,8 @@ session_start();
             </div>
         </div>
     </header>
-<body style="background-image: url(./img/bg.png); background-attachment: fixed;">
-    <div class="content">
 
+    <div class="content">
         <h2>🆕 Nowości</h2>
         <br>
         <div class="ksiazki">
@@ -259,6 +258,10 @@ session_start();
 
         </div>
     </div>
+    <a class="btn-circle1 btn-danger" href="#" role="button" style="height: 10%; margin-left: 95%;"> <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+</svg> </a>
+
     <hr>
     <footer style="text-align: center;">
         <p>Wygląd wykonał Rzepson</p>
