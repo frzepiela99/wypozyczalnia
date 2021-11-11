@@ -71,23 +71,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="calosc">
 
-        <div class="lewa-panel">
+    <div class="lewa-panel">
             <div class="logo">
 
-                <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" />
+                <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" /> <br><br>
+                <p style="text-align: center;">Panel bibliotekarza</p>
 
             </div>
             <hr>
             <div class="menu">
-                <h3 style="text-align: center;">Panel bibliotekarza</h3><br><br>
                 <div class="linki">
-                    <a href="./panel-admin.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🏠 Panel Biblioteka</button></a><br><br>
-                    <a href="./dodaj-ksiazke.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📖 Dodaj książkę</button></a><br><br>
+                    <a href="./panel-admin.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🏠 Panel Biblioteka</button></a><br><br>
+                    <a href="./dodaj-ksiazke.php"><button type="button" class="btn btn-link" style="font-size: 16px;">📖 Dodaj książkę</button></a><br><br>
+                    <a href="./szukaj-czyt.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🔍 Wyszukaj czytelnika</button></a><br><br>
 
-                    <a href="./szukaj-czyt.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔍 Wyszukaj czytelnika</button></a><br><br>
-
-                    <a href="./reset-password-admin.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔏 Zmień hasło</button></a><br><br>
-                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📙 Biblioteka</button></a><br><br>
+                    <a href="./reset-password-admin.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🔏 Zmień hasło</button></a><br><br>
+                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 16px;">📙 Biblioteka</button></a><br><br>
                 </div>
             </div>
         </div>
@@ -99,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </svg> <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b></span>
                 <a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a><hr>
             </div>
-            <h1>📖 Dodaj książkę!</h1><br>
+            <h3>📖 Dodaj książkę!</h3><br>
             
             <div class="formularz-dodania-ksiazki">
                 <form method="post" action="dodaj-ksiazke.php" enctype="multipart/form-data">
@@ -121,14 +120,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="przykladoweWysylaniePliku">Zdjęcie okładki</label>
                     <input type="file" class="form-control-file" id="przykladoweWysylaniePliku" name="zdjecie">
                     <br><br>
-                    <input type="submit" class="btn btn-primary" value="Dodaj książkę">
+                    <input type="submit" class="btn-sm btn-primary" value="Dodaj książkę">
                 </form>
-            </div>
-            <br><br>
-            <div class="footer">
-                <hr>
-                <p>Projekt wykonał zespół P2/G4</p>
+                <br>
             </div>
         </div>
     </div>
+    <footer>
+        <hr>
+            Projekt wykonał zespół P2/G4
+            </footer>
 </html>

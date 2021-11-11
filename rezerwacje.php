@@ -5,6 +5,44 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     exit;
 }
 require("config.php");
+$id_czyt=$_GET['id_czyt'];
+$wynik1 = mysqli_query($link, 'SELECT imie, nazwisko from czytelnik where id_czytelnik=' . $id_czyt.'');
+while ($row = mysqli_fetch_array($wynik1)) {
+$imie = $row['imie'];
+$nazwisko = $row['nazwisko'];
+}
+
+if ((isset($_GET['id_czyt'])) && (isset($_GET['anuluj']))) {
+    $anuluj_id= $_GET['anuluj'];
+    $jeden=1;
+    $zero=0;
+
+    //$wynik1= mysqli_query($link, "");
+    $wynik1= mysqli_query($link, "select id_ksiazki from rezerwacja where id_rez= '$anuluj_id'");
+    while ($row = mysqli_fetch_array($wynik1)) { 
+        $id_ksiazki=$row['id_ksiazki'];
+    }
+    $wynik2= mysqli_query($link, "select stan,ilosc from ksiazki where id_ksiazki= '$id_ksiazki'");
+    while ($row = mysqli_fetch_array($wynik2)) { 
+        $stan=$row['stan'];
+        $ilosc=$row['ilosc'];
+    }
+    if($stan == $jeden)
+    {
+        $nowailosc=$ilosc+1;
+        $wynik3= mysqli_query($link, "update ksiazki set stan = 0 where id_ksiazki='$id_ksiazki'");
+        $wynik4= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$id_ksiazki'");
+        $wynik5= mysqli_query($link, "delete from rezerwacja where id_rez='$anuluj_id'");
+    }
+    else if($stan==$zero)
+    {
+        $nowailosc=$ilosc+1;
+        $wynik4= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$id_ksiazki'");
+        $wynik5= mysqli_query($link, "delete from rezerwacja where id_rez='$anuluj_id'");
+    }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -21,23 +59,22 @@ require("config.php");
 <body>
     <div class="calosc">
 
-        <div class="lewa-panel">
+    <div class="lewa-panel">
             <div class="logo">
 
-                <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" />
+                <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" /> <br><br>
+                <p style="text-align: center;">Panel bibliotekarza</p>
 
             </div>
             <hr>
             <div class="menu">
-                <h3 style="text-align: center;">Panel bibliotekarza</h3><br><br>
                 <div class="linki">
-                    <a href="./panel-admin.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🏠 Panel Biblioteka</button></a><br><br>
-                    <a href="./dodaj-ksiazke.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📖 Dodaj książkę</button></a><br><br>
+                    <a href="./panel-admin.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🏠 Panel Biblioteka</button></a><br><br>
+                    <a href="./dodaj-ksiazke.php"><button type="button" class="btn btn-link" style="font-size: 16px;">📖 Dodaj książkę</button></a><br><br>
+                    <a href="./szukaj-czyt.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🔍 Wyszukaj czytelnika</button></a><br><br>
 
-                    <a href="./szukaj-czyt.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔍 Wyszukaj czytelnika</button></a><br><br>
-
-                    <a href="./reset-password-admin.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔏 Zmień hasło</button></a><br><br>
-                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📙 Biblioteka</button></a><br><br>
+                    <a href="./reset-password-admin.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🔏 Zmień hasło</button></a><br><br>
+                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 16px;">📙 Biblioteka</button></a><br><br>
                 </div>
             </div>
         </div>
@@ -51,10 +88,8 @@ require("config.php");
                 <hr>
             </div>
             <br>
-            <h1>🔒 Rezerwacje użytkownika @user </h1><br>
+            <h1>🔒 Rezerwacje użytkownika <?php echo $imie; echo " $nazwisko";?></h1><br>
             <div class="wyszukaj-czytelnika">
-            
-            
                 <br>
                 
                 <table class="table table-striped">
@@ -64,6 +99,8 @@ require("config.php");
                             <th>Tytuł książki</th>
                             <th>Data rezerwacji</th>
                             <th>Koniec rezerwacji</th>
+                            <th>Wypożycz</th>
+                            <th>Anuluj rezerwację</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,21 +109,24 @@ require("config.php");
 
                         <?php
                         $id_czyt=$_GET['id_czyt'];
+                    
                         $wynik = mysqli_query($link, 'SELECT * from rezerwacja, ksiazki where rezerwacja.id_czytelnik=' . $id_czyt . ' and rezerwacja.id_ksiazki=ksiazki.id_ksiazki');
                         while ($row = mysqli_fetch_array($wynik)) {
-                            echo "<tr><td>" . $row['tytul'] . "</td><td>" . $row['data_rez'] . "</td><td>" . $row['data_k_rez'] . "</td></tr>";
+
+                            echo "<tr><td>" . $row['tytul'] . "</td><td>" . $row['data_rez'] . "</td><td>" . $row['data_k_rez'] . "</td>
+                            <td><a href='rezerwacje.php?id_czyt=$id_czyt&&wypozycz=".$row['id_rez']."'><button type='button' class='btn-sm btn-success'>Wypożycz</button></a></td>
+                            <td><a href='rezerwacje.php?id_czyt=$id_czyt&&anuluj=".$row['id_rez']."'><button type='button' class='btn-sm btn-danger'>Anuluj rezerwacje</button></a></td></tr>";
                         }
                         ?>
                             
                         </tr>
                     </tbody>
                 </table>
-            <br><br><br><br><br><br><br><br><br><br><br>
             </div>
-            <div class="footer">
+            <footer>
                 <hr>
-                <p>Projekt wykonał zespół P2/G4</p>
-            </div>
+            Projekt wykonał zespół P2/G4
+            </footer>
         </div>
     </div>
 

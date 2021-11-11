@@ -1,12 +1,16 @@
-html, body { height: 100%; }
+html, body { height: 100%; background-color: #edf6f9; background-attachment: fixed; }
+
 .calosc {
     display: flex;
     flex-direction: row;
+    height: 100%; 
+    background-color: #edf6f9; 
+    background-attachment: fixed;
   }
   .lewa-panel{
     background-color: #21D4FD;
     background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);       
-    width: 25%;
+    width: 18%;
     height: auto;
     color: white;
   }
@@ -19,7 +23,7 @@ html, body { height: 100%; }
     }
   .prawa-panel{
     background-color: #edf6f9;
-    width: 75%;
+    width: 82%;
     height: auto;
     text-align: center;
     flex-direction: column;
@@ -35,6 +39,8 @@ html, body { height: 100%; }
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-attachment: fixed;
+    font-size: 13px;
   }
   .zmianahasla {
     display: flex;
@@ -49,5 +55,13 @@ html, body { height: 100%; }
   .footer{
     align-items: center;
     text-align: center;
+    padding-top: auto;
+  }
+  footer{
+    align-items: center;
+    text-align: center;
     margin-top: auto;
+  }
+  ::placeholder{
+    font-size: 13px;
   }

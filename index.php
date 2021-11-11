@@ -1,7 +1,7 @@
 <?php
 // Initialize the session
 session_start();
-
+require("config.php");
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -37,6 +37,34 @@ session_start();
                     if ($_SESSION['admin'] == 0) {
                         echo '<a href="./panel-czyt.php"><button type="button" class="btn btn-primary">Panel czytelnika</button></a>
     <a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a>';
+    if (isset($_GET['name'])) {
+        $kto=$_SESSION["id"];
+        $ksiazka= $_GET['name'];
+        $jeden=1;
+        //$wynik1= mysqli_query($link, "");
+        $wynik1= mysqli_query($link, "select ilosc from ksiazki where id_ksiazki= '$ksiazka'");
+        while ($row = mysqli_fetch_array($wynik1)) { 
+            $ilosc=$row['ilosc'];
+        }
+        if($ilosc > 1)
+        {
+            $nowailosc=$ilosc-1;
+            $wynik2= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$ksiazka'");
+            $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', '2021-11-09', '2021-11-11')");
+
+        }
+        else if($ilosc==$jeden)
+        {
+            $nowailosc=$ilosc-1;
+            $wynik3= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$ksiazka'");
+            $wynik4= mysqli_query($link, "update ksiazki set stan = 1 where id_ksiazki='$ksiazka'");
+            $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', '2021-11-09', '2021-11-11')");
+        }
+
+
+    }
+
+
                     } elseif ($_SESSION['admin'] == 1) {
                         echo '<a href="./panel-admin.php"><button type="button" class="btn btn-primary">Panel bibliotekarza</button></a>
     <a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a>';
@@ -64,49 +92,13 @@ session_start();
     </header>
 
     <div class="content">
-    <h2>📒🔝 TOP 3 najczęściej wypożyczane książki</h2>
-        <br>
-        <div class="ksiazki">
-
-                <div class='card'>
-                <img src="./zdjecie/11.png" class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
-                <hr>
-                <div class='card-body' style='text-align: center;'>
-                    <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
-                    <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
-                    <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
-                    <button type='button' class='btn btn-success'>Wypożycz</button>
-                </div>
-            </div>
-            <div class='card'>
-                <img src="./zdjecie/11.png" class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
-                <hr>
-                <div class='card-body' style='text-align: center;'>
-                    <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
-                    <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
-                    <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
-                    <button type='button' class='btn btn-success'>Wypożycz</button>
-                </div>
-            </div>
-            <div class='card'>
-                <img src="./zdjecie/11.png" class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
-                <hr>
-                <div class='card-body' style='text-align: center;'>
-                    <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
-                    <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
-                    <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
-                    <button type='button' class='btn btn-success'>Wypożycz</button>
-                </div>
-            </div>
-        </div>
-
         <h2>🆕 Nowości</h2>
         <br>
         <div class="ksiazki">
 
         <?php
                         
-            require("config.php");
+            
             $wynikn = mysqli_query($link, 'SELECT * FROM `ksiazki` WHERE stan =0 ORDER BY id_ksiazki DESC limit 5');
             while ($row = mysqli_fetch_array($wynikn)) { 
                 echo "
@@ -114,10 +106,10 @@ session_start();
                 <img src='zdjecie/". $row['zdjecie']."' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
                 <hr>
                 <div class='card-body' style='text-align: center;'>
-                    <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
-                    <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                <p class='card-tytul' title='".$row['tytul']."'>".$row['tytul']."</p>
+                <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
                     <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
-                    <button type='button' class='btn btn-success'>Wypożycz</button>
+                    <a href='index.php?name=".$row['id_ksiazki']."'> <button type='button' class='btn btn-success'>Wypożycz</button></a>
                 </div>
             </div>
                 ";
@@ -182,10 +174,10 @@ session_start();
                             <img src='zdjecie/". $row['zdjecie']."' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
                             <hr>
                             <div class='card-body' style='text-align: center;'>
-                                <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
-                                <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                            <p class='card-tytul' title='".$row['tytul']."'>".$row['tytul']."</p>
+                            <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
                                 <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
-                                <button type='button' class='btn btn-success'>Wypożycz</button>
+                                <a href='index.php?name=".$row['id_ksiazki']."'> <button type='button' class='btn btn-success'>Wypożycz</button></a>
                             </div>
                         </div>
                             ";
@@ -205,8 +197,8 @@ session_start();
                                 <img src='zdjecie/". $row['zdjecie']."' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
                                 <hr>
                                 <div class='card-body' style='text-align: center;'>
-                                    <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
-                                    <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                                <p class='card-tytul' title='".$row['tytul']."'>".$row['tytul']."</p>
+                                <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
                                     <p class='card-text' style='text-align: center; color:#fd078e;'>Wypożyczona</p>
                                     <button type='button' class='btn btn-primary'>Zapisz się</button>
                                 </div>
@@ -228,8 +220,8 @@ session_start();
                                     <img src='zdjecie/". $row['zdjecie']."' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
                                     <hr>
                                     <div class='card-body' style='text-align: center;'>
-                                        <p class='card-text' style='font-weight:600; text-align: center;'>".$row['tytul']."</p>
-                                        <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                                    <p class='card-tytul' title='".$row['tytul']."'>".$row['tytul']."</p>
+                                    <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
                                         <p class='card-text' style='text-align: center; color:grey;'>Wycofana</p>
                                         <button type='button' class='btn btn-light disabled'>Niedostępna</button>
                                     </div>

@@ -5,6 +5,12 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     exit;
 }
 require("config.php");
+$id_czyt = $_GET['id_czyt'];
+$wynik1 = mysqli_query($link, 'SELECT imie, nazwisko from czytelnik where id_czytelnik=' . $id_czyt.'');
+while ($row = mysqli_fetch_array($wynik1)) {
+$imie = $row['imie'];
+$nazwisko = $row['nazwisko'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -51,7 +57,7 @@ require("config.php");
                 <hr>
             </div>
             <br>
-            <h1>📚 Wypożyczenia użytkownika @user </h1><br>
+            <h1>📚 Wypożyczenia użytkownika  <?php echo $imie; echo " $nazwisko";?></h1><br>
             <div class="wyszukaj-czytelnika">
             
             <div class="input-group mb-4" style="width: 700px;">

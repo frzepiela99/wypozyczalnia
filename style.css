@@ -60,6 +60,19 @@ body { margin: 0; background-image: url(./img/bg.png); font-family: Roboto, "Hel
     margin-left: 20px;
     margin-bottom: 20px;
 }
+.card-body{
+  margin-top: 10px;
+}
+.card-tytul{
+  margin-top: -20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight:600;
+  text-align: center;
+}
+
+
 .wyszukaj {
     display: flex;
     flex-direction: row;

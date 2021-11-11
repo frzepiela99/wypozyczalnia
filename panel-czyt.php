@@ -17,8 +17,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     <title>📙 Panel Czytelnika</title>
 </head>
 
-<body style="height: 100%;">
-    <div class="calosc" style="height: 100%;">
+<body>
+    <div class="calosc">
 
         <div class="lewa-panel">
             <div class="logo">
