@@ -56,13 +56,13 @@ require("config.php");
             
             <div class="input-group mb-4" style="width: 700px;">
                 <div class="input-group-text p-0">
-                    <select class="form-select form-select-lg shadow-none bg-light border-0" style="font-size: 14px;">
-                        <option>Nazwisko</option>
-                        <option>E-Mail</option>
+                    <select class="form-select form-select-lg shadow-none bg-light border-0" style="font-size: 14px;" id="opcja">
+                        <option value="Nazwisko">Nazwisko</option>
+                        <option value="Mail">E-Mail</option>
                     </select>
                 </div>
-                <input type="text" class="form-control" placeholder="Wyszukaj">
-                <button class="input-group-text shadow-none px-4 btn-warning">
+                <input type="text" class="form-control" placeholder="Wyszukaj" id="wartosc">
+                <button class="input-group-text shadow-none px-4 btn-warning" onclick="pokaz()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                     </svg>
@@ -84,7 +84,7 @@ require("config.php");
                             <th>Historia</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="czytelnicy">
 
                     <?php
 
@@ -111,5 +111,22 @@ $i++;
             </div>
         </div>
     </div>
-
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function pokaz() {
+            var opcja = document.getElementById("opcja").value;
+            var wartosc = document.getElementById("wartosc").value;
+            $.ajax({
+                type: "POST",
+                url: "szukaj.php",
+                data: {
+                    option: opcja,
+                    tresc: wartosc
+                }
+            }).done(function(data) {
+                document.getElementById("czytelnicy").innerHTML = data;
+            });
+        }
+    </script>
 </html>

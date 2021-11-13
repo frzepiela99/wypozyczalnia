@@ -26,8 +26,6 @@ require("config.php");
             <div class="spacer"></div>
             <div class="menu-gora">
                 <a href="./index.php"><button type="button" class="btn btn-link">Strona Główna</button></a>
-                <!--<button mat-button>Aktualności</button>-->
-                <a href="./nowosci.php"><button type="button" class="btn btn-link">Nowości</button></a>
                 <a href="./kontakt.php"><button type="button" class="btn btn-link">Kontakt</button></a>
 
                 <?php
@@ -117,17 +115,7 @@ require("config.php");
 
 
         ?>
-
-
         
-           
-            <div class="wincyj" style="height: 10%; margin-left:10px; margin-top: 46%;">
-                <a href="./nowosci.php"><button type="button" class="btn-circle btn-danger">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
-                        </svg>
-                    </button></a>
-            </div>
         </div>
 
         <br><br>
@@ -136,15 +124,15 @@ require("config.php");
 
             <div class="input-group mb-4" style="width: 900px;">
                 <div class="input-group-text p-0">
-                    <select class="form-select form-select-lg shadow-none bg-light border-0" style="font-size: 14px;">
-                        <option>Tytuł</option>
-                        <option>Autor</option>
-                        <option>Gatunek</option>
-                        <option>Wydawnictwo</option>
+                    <select class="form-select form-select-lg shadow-none bg-light border-0" style="font-size: 14px;" id="opcja">
+                        <option value="tytul">Tytuł</option>
+                        <option value="autor">Autor</option>
+                        <option value="gatunek">Gatunek</option>
+                        <option value="wydawnictwo">Wydawnictwo</option>
                     </select>
                 </div>
-                <input type="text" class="form-control" placeholder="Wyszukaj">
-                <button class="input-group-text shadow-none px-4 btn-warning">
+                <input type="text" class="form-control" placeholder="Wyszukaj" id="wartosc">
+                <button class="input-group-text shadow-none px-4 btn-warning" onclick="pokaz()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                     </svg>
@@ -152,6 +140,7 @@ require("config.php");
             </div>
         </div>
         <br>
+        <div id="ksiazki1">
         <div class="ksiazki">
 
             
@@ -235,6 +224,7 @@ require("config.php");
 
         </div>
     </div>
+    </div>
     <a class="btn-circle1 btn-danger" href="#" role="button" style="height: 10%; margin-left: 95%;"> <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
 </svg> </a>
@@ -249,7 +239,23 @@ require("config.php");
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function pokaz() {
+            var opcja = document.getElementById("opcja").value;
+            var wartosc = document.getElementById("wartosc").value;
+            $.ajax({
+                type: "POST",
+                url: "pokaz.php",
+                data: {
+                    option: opcja,
+                    tresc: wartosc
+                }
+            }).done(function(data) {
+                document.getElementById("ksiazki1").innerHTML = data;
+            });
+        }
+    </script>
 
 
 </html>

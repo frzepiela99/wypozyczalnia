@@ -23,10 +23,9 @@ session_start();
 
             <div class="spacer"></div>
             <div class="menu-gora">
-                <a href="./index.php"><button type="button" class="btn btn-link">Strona Główna</button></a>
-                <!--<button mat-button>Aktualności</button>-->
-                <a href="./nowosci.php"><button type="button" class="btn btn-link">Nowości</button></a>
-                <a href="./kontakt.php"><button type="button" class="btn btn-link">Kontakt</button></a>
+            <a href="./index.php"><button type="button" class="btn btn-link">Strona Główna</button></a>
+            <a href="./kontakt.php"><button type="button" class="btn btn-link">Kontakt</button></a>
+
 
 
                 <?php
