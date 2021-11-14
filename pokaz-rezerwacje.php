@@ -10,7 +10,42 @@ $wynik1 = mysqli_query($link, 'SELECT imie, nazwisko from czytelnik where id_czy
 while ($row = mysqli_fetch_array($wynik1)) {
 $imie = $row['imie'];
 $nazwisko = $row['nazwisko'];
+$jeden=1;
+$zero=0;
 }
+
+if (isset($_GET['id_rez']))
+{
+    $anuluj_id=$_GET['id_rez'];
+    $wynik1= mysqli_query($link, "select id_ksiazki from rezerwacja where id_rez= '$anuluj_id'");
+    while ($row = mysqli_fetch_array($wynik1)) { 
+        $id_ksiazki=$row['id_ksiazki'];
+        
+    }
+    $wynik2= mysqli_query($link, "select stan,ilosc from ksiazki where id_ksiazki= '$id_ksiazki'");
+    while ($row = mysqli_fetch_array($wynik2)) { 
+        $stan=$row['stan'];
+        $ilosc=$row['ilosc'];
+    }
+    if($stan == $jeden)
+    {
+        $nowailosc=$ilosc+1;
+        $wynik3= mysqli_query($link, "update ksiazki set stan = 0 where id_ksiazki='$id_ksiazki'");
+        $wynik4= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$id_ksiazki'");
+        $wynik5= mysqli_query($link, "delete from rezerwacja where id_rez='$anuluj_id'");
+    }
+    else if($stan==$zero)
+    {
+        $nowailosc=$ilosc+1;
+        $wynik4= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$id_ksiazki'");
+        $wynik5= mysqli_query($link, "delete from rezerwacja where id_rez='$anuluj_id'");
+    }
+
+
+    header("location: pokaz-rezerwacje.php");
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -30,21 +65,21 @@ $nazwisko = $row['nazwisko'];
         <div class="lewa-panel">
             <div class="logo">
 
-                <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" />
+                <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" /><br><br>
+                <p style="text-align: center;">Panel czytelnika</p>
 
             </div>
             <hr>
             <div class="menu">
-                <h4 style="text-align: center;">Panel czytelnika</h4><br>
                 <div class="linki">
-                    <a href="./panel-czyt.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🏠 Panel Czytelnika</button></a><br><br>
-                    <a href="./pokaz-rezerwacje.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📃 Pokaż rezerwacje</button></a><br><br>
+                    <a href="./panel-czyt.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🏠 Panel Czytelnika</button></a><br><br>
+                    <a href="./pokaz-rezerwacje.php"><button type="button" class="btn btn-link" style="font-size: 16px;">📃 Pokaż rezerwacje</button></a><br><br>
 
-                    <a href="./wypozyczenia-czytelnik.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🗃 Pokaż wypożyczenia</button></a><br><br>
-                    <a href="./historia.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🗃 Historia wypożyczeń</button></a><br><br>
+                    <a href="./wypozyczenia-czytelnik.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🗃 Pokaż wypożyczenia</button></a><br><br>
+                    <a href="./historia.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🗃 Historia wypożyczeń</button></a><br><br>
 
-                    <a href="./reset-password.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔏 Zmień hasło</button></a><br><br>
-                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📙 Biblioteka</button></a><br><br>
+                    <a href="./reset-password.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🔏 Zmień hasło</button></a><br><br>
+                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 16px;">📙 Biblioteka</button></a><br><br>
                 </div>
             </div>
         </div>
@@ -70,6 +105,7 @@ $nazwisko = $row['nazwisko'];
                             <th>Tytuł książki</th>
                             <th>Data rezerwacji</th>
                             <th>Koniec rezerwacji</th>
+                            <th>Anuluj rezerwacje</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,18 +113,23 @@ $nazwisko = $row['nazwisko'];
                         $id = $_SESSION['id'];
                         $wynik = mysqli_query($link, 'SELECT * from rezerwacja, ksiazki where rezerwacja.id_czytelnik=' . $id . ' and rezerwacja.id_ksiazki=ksiazki.id_ksiazki');
                         while ($row = mysqli_fetch_array($wynik)) {
-                            echo "<tr><td>" . $row['tytul'] . "</td><td>" . $row['data_rez'] . "</td><td>" . $row['data_k_rez'] . "</td></tr>";
+                            echo "<tr><td>" . $row['tytul'] . "</td><td>" . $row['data_rez'] . "</td><td>" . $row['data_k_rez'] . "</td>
+                            <td><a href='pokaz-rezerwacje.php?id_rez=".$row['id_rez']."'><button type='button' class='btn-sm btn-danger'>Anuluj rezerwacje</button></a></td>
+                            
+                            
+                            </tr>";
                         }
                         ?>
                     </tbody>
                 </table>
-                <br><br><br><br><br><br><br><br><br><br><br>
-            </div>
-            <div class="footer">
-                <hr>
-                <p>Projekt wykonał zespół P2/G4</p>
+
             </div>
         </div>
     </div>
+    <div class="footer">
+                <hr>
+                <p id="stopka">Projekt wykonał zespół P2/G4</p>
+            </div>
+</body>
 
 </html>

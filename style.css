@@ -21,7 +21,7 @@ body { margin: 0; background-image: url(./img/bg.png); font-family: Roboto, "Hel
   }
 
   .menu-gora {
-    flex: 4;
+    flex: 5;
   }
   .toolbar {
     position: absolute;
@@ -44,10 +44,9 @@ body { margin: 0; background-image: url(./img/bg.png); font-family: Roboto, "Hel
     display: flex;
     margin: 82px auto 32px;
     padding: 0 16px;
-    max-width: 1000px;
     flex-direction: column;
     align-items: center;
-
+min-height: 100%;
   }
 .ksiazki {
     display: flex;
@@ -72,6 +71,9 @@ body { margin: 0; background-image: url(./img/bg.png); font-family: Roboto, "Hel
   text-align: center;
 }
 
+.formularz{
+  flex-direction: row;
+}
 
 .wyszukaj {
     display: flex;
@@ -134,4 +136,13 @@ body { margin: 0; background-image: url(./img/bg.png); font-family: Roboto, "Hel
 }
 .contact-form button:focus{
   box-shadow:none;
+}
+footer{
+  position: absolute;
+  text-align: center;
+  align-items: center;
+  width: 100%;
+}
+.container-contact{
+  width: 60%;
 }

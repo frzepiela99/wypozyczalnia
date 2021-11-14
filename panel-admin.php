@@ -48,13 +48,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION[
             </div>
             <br>
             <h1>🎉 Witamy w panelu bibliotekarza!</h1>
-            <!-- <footer class="footer">
-                <hr>
-            Projekt wykonał zespół P2/G4
-            </footer> -->
+
+        
         </div>
     </div>
-    <footer class="footer">
-            Projekt wykonał zespół P2/G4
-            </footer>
+    <div class="footer">
+                <hr>
+                <p id="stopka">Projekt wykonał zespół P2/G4</p>
+            </div>
+</body>
 </html>

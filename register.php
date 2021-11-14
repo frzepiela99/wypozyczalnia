@@ -190,8 +190,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="spacer"></div>
             <div class="menu-gora">
                 <a href="./index.php"><button type="button" class="btn btn-link">Strona Główna</button></a>
-                <!--<button mat-button>Aktualności</button>-->
-                <a href="./nowosci.php"><button type="button" class="btn btn-link">Nowości</button></a>
                 <a href="./kontakt.php"><button type="button" class="btn btn-link">Kontakt</button></a>
 
 
@@ -213,68 +211,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
 
     <div class="content">
-        <br>
-        <h2>Rejestracja</h2> <br>
-        <div class="wrapper">
-
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="form-group">
-                    <label>Imię</label>
+        <h1>📝 Rejestracja</h1><br>
+        <div class="alert alert-info" role="alert">
+  Aby założyć konto w systemie biblioteki publicznej wypełnij poniższy formularz
+</div>
+<br>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <div class="row">
+                <div class="col">
+                    <label>Imię:</label>
                     <input type="text" name="imie" class="form-control <?php echo (!empty($imie_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $imie; ?>">
                     <span class="invalid-feedback"><?php echo $imie_err; ?></span>
                 </div>
-                <div class="form-group">
-                    <label>Nazwisko</label>
+                <div class="col">
+                    <label>Nazwsko:</label>
                     <input type="text" name="nazwisko" class="form-control <?php echo (!empty($nazwisko_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $nazwisko; ?>">
                     <span class="invalid-feedback"><?php echo $nazwisko_err; ?></span>
                 </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
-                    <span class="invalid-feedback"><?php echo $username_err; ?></span>
-                </div>
-                <div class="form-group">
-                    <label>Hasło</label>
+            </div>
+            <div class="col">
+                <label>E-mail:</label>
+                <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
+                <span class="invalid-feedback"><?php echo $username_err; ?></span>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Hasło:</label>
                     <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
                     <span class="invalid-feedback"><?php echo $password_err; ?></span>
                 </div>
-                <div class="form-group">
-                    <label>Powtórz hasło</label>
+                <div class="col">
+                    <label>Powtórz hasło:</label>
                     <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
                     <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
                 </div>
-                <div class="form-group">
-                    <label>Numer telefonu</label>
-                    <input type="number" onkeydown="javascript: return event.keyCode == 69 ? false : true" name="nr_tel" class="form-control <?php echo (!empty($nr_tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $nr_tel; ?>">
-                    <span class="invalid-feedback"><?php echo $nr_tel_err; ?></span>
-                </div>
-                <div class="form-group">
-                    <label>Miejsce zamieszkania</label>
-                    <input type="text" name="miej" class="form-control <?php echo (!empty($miej_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $miej; ?>">
-                    <span class="invalid-feedback"><?php echo $miej_err; ?></span>
-                </div>
-                <div class="form-group">
-                    <label>Ulica</label>
+            </div>
+
+            <div class="col">
+                <label>Numer telefonu:</label>
+                <input type="number" onkeydown="javascript: return event.keyCode == 69 ? false : true" name="nr_tel" class="form-control <?php echo (!empty($nr_tel_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $nr_tel; ?>">
+                <span class="invalid-feedback"><?php echo $nr_tel_err; ?></span>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <label>Ulica:</label>
                     <input type="text" name="ul" class="form-control <?php echo (!empty($ul_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $ul; ?>">
                     <span class="invalid-feedback"><?php echo $ul_err; ?></span>
                 </div>
-                <div class="form-group">
-                    <label>Numer domu</label>
+                <div class="col-4">
+                    <label>Numer domu:</label>
                     <input type="text" name="nr_dom" class="form-control <?php echo (!empty($nr_dom_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $nr_dom; ?>">
                     <span class="invalid-feedback"><?php echo $nr_dom_err; ?></span>
                 </div>
-                <br>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Utwórz">
-                    <input type="reset" class="btn btn-secondary ml-2" value="Reset">
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <label>Miasto:</label>
+                    <input type="text" name="miej" class="form-control <?php echo (!empty($miej_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $miej; ?>">
+                    <span class="invalid-feedback"><?php echo $miej_err; ?></span>
                 </div>
-                <p>Masz już konto? <a href="login-user.php">Zaloguj się!</a>.</p>
-            </form>
-        </div>
+                <div class="col-4">
+                    <label>Kod pocztowy:</label>
+                    <input type="text" name="nr_dom" class="form-control <?php echo (!empty($nr_dom_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $nr_dom; ?>">
+                    <span class="invalid-feedback"><?php echo $nr_dom_err; ?></span>
+                </div>
+            </div>
+            <!-- <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="przykladowyCheckbox">
+      <label class="form-check-label" for="przykladowyCheckbox">
+        Oświadczam że zapoznałem się z regulaminem
+      </label>
+    </div> -->
+            <br>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Zarejestruj się!">
+                <input type="reset" class="btn btn-secondary ml-2" value="Zresetuj dane">
+                <p>Masz już konto? 🤔 <a href="login-user.php">Zaloguj się!</a>.</p>
+            </div>
+        </form>
     </div>
-    <footer style="text-align: center; margin-top: 20%;">
+    <footer style="text-align: center; margin-top: 10%;">
         <hr>
-        <p>Wygląd wykonał Rzepson</p>
+        <p>Projekt wykonał zespół L2/G4</p>
     </footer>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

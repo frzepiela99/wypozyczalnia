@@ -23,8 +23,8 @@ session_start();
 
             <div class="spacer"></div>
             <div class="menu-gora">
-            <a href="./index.php"><button type="button" class="btn btn-link">Strona Główna</button></a>
-            <a href="./kontakt.php"><button type="button" class="btn btn-link">Kontakt</button></a>
+                <a href="./index.php"><button type="button" class="btn btn-link">Strona Główna</button></a>
+                <a href="./kontakt.php"><button type="button" class="btn btn-link">Kontakt</button></a>
 
 
 
@@ -63,10 +63,9 @@ session_start();
     <div class="content">
         <br>
         <h2>Kontakt</h2>
-        <div class="container contact">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2211.729841175086!2d20.702864711620922!3d49.609042603775855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473de53b74f2e051%3A0x794c645561d15547!2sInstytut%20Techniczny%20PWSZ!5e1!3m2!1spl!2spl!4v1635529512052!5m2!1spl!2spl" width="960px" height="450px" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            <br><br>
-            <div class="row" style="margin-left: 5px;">
+        <div class="container-contact">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2585.3988095417926!2d20.701682750797776!3d49.60908565540864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473de53b7dba810d%3A0x17e7e466414735ae!2sPWSZ%20w%20Nowym%20S%C4%85czu%20-%20Instytut%20Techniczny!5e0!3m2!1spl!2spl!4v1636884042963!5m2!1spl!2spl" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe> <br><br>
+            <div class="row">
                 <div class="col-md-3">
                     <h3>📞 Kontakt:</h3><br>
                     <h6 style="margin-left: 5px;">📚 Biblioteka Publiczna</h6>
@@ -101,7 +100,7 @@ session_start();
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="comment">Wiadomość:</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" rows="5" id="comment"></textarea>
+                                <textarea class="form-control" rows="5" id="comment" style="resize: none;"></textarea>
                             </div>
                         </div>
                         <br>
@@ -115,14 +114,16 @@ session_start();
             </div>
         </div>
     </div>
-    <footer style="text-align: center; margin-top: 700px;">
-        <hr>
-        <p>Wygląd wykonał Rzepson</p>
+    <footer>
+    <hr>
+        <p style="text-align: center;" >Projekt wykonał zespół L2/G4</p>
+
     </footer>
+</body>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
+
 
 
 </html>

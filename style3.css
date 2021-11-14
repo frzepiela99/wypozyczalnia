@@ -1,11 +1,12 @@
-html, body { height: 100%; background-color: #edf6f9; background-attachment: fixed; }
+html, body { height: 100%; width: 100%; background-color: #edf6f9; background-attachment: fixed; }
 
 .calosc {
     display: flex;
     flex-direction: row;
-    height: 100%; 
+    min-height: 95%; 
     background-color: #edf6f9; 
     background-attachment: fixed;
+    margin-bottom: -16px;
   }
   .lewa-panel{
     background-color: #21D4FD;
@@ -53,14 +54,14 @@ html, body { height: 100%; background-color: #edf6f9; background-attachment: fix
     align-items: center;
   }
   .footer{
-    align-items: center;
     text-align: center;
-    padding-top: auto;
+    height: 5%;
+    width: 100%;
+    justify-content: center;
+    background-color: #edf6f9;
   }
-  footer{
-    align-items: center;
-    text-align: center;
-    margin-top: auto;
+  #stopka{
+    line-height: 50%;
   }
   ::placeholder{
     font-size: 13px;

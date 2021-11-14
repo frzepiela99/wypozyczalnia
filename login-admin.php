@@ -164,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <footer style="text-align: center; margin-top: 20%;">
         <hr>
-        <p>Wygląd wykonał Rzepson</p>
+        <p>Projekt wykonał zespół L2/G4</p>
     </footer>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

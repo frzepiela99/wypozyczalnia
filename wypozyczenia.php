@@ -27,23 +27,23 @@ $nazwisko = $row['nazwisko'];
 <body>
     <div class="calosc">
 
-        <div class="lewa-panel">
+    <div class="lewa-panel">
             <div class="logo">
 
-                <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" />
+                <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" /><br><br>
+                <p style="text-align: center;">Panel bibliotekarza</p>
 
             </div>
             <hr>
             <div class="menu">
-                <h3 style="text-align: center;">Panel bibliotekarza</h3><br><br>
                 <div class="linki">
-                    <a href="./panel-admin.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🏠 Panel Biblioteka</button></a><br><br>
-                    <a href="./dodaj-ksiazke.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📖 Dodaj książkę</button></a><br><br>
+                    <a href="./panel-admin.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🏠 Panel Biblioteka</button></a><br><br>
+                    <a href="./dodaj-ksiazke.php"><button type="button" class="btn btn-link" style="font-size: 16px;">📖 Dodaj książkę</button></a><br><br>
 
-                    <a href="./szukaj-czyt.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔍 Wyszukaj czytelnika</button></a><br><br>
+                    <a href="./szukaj-czyt.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🔍 Wyszukaj czytelnika</button></a><br><br>
 
-                    <a href="./reset-password-admin.php"><button type="button" class="btn btn-link" style="font-size: 18px;">🔏 Zmień hasło</button></a><br><br>
-                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 18px;">📙 Biblioteka</button></a><br><br>
+                    <a href="./reset-password-admin.php"><button type="button" class="btn btn-link" style="font-size: 16px;">🔏 Zmień hasło</button></a><br><br>
+                    <a href="./index.php"><button type="button" class="btn btn-link" style="font-size: 16px;">📙 Biblioteka</button></a><br><br>
                 </div>
             </div>
         </div>
@@ -59,30 +59,12 @@ $nazwisko = $row['nazwisko'];
             <br>
             <h1>📚 Wypożyczenia użytkownika  <?php echo $imie; echo " $nazwisko";?></h1><br>
             <div class="wyszukaj-czytelnika">
-            
-            <div class="input-group mb-4" style="width: 700px;">
-                <div class="input-group-text p-0">
-                    <select class="form-select form-select-lg shadow-none bg-light border-0" style="font-size: 14px;">
-                        <option>Numer wypożyczenia</option>
-                        <option>Nazwa książki</option>
-                        <option>Numer książki</option>
-                    </select>
-                </div>
-                <input type="text" class="form-control" placeholder="Wyszukaj">
-                <button class="input-group-text shadow-none px-4 btn-warning">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                    </svg>
-                </button>
-            </div>
-                <br>
                 
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Tytuł książki</th>
                             <th>Data wypożyczenia</th>
-                            <th>Data zwrotu</th>
                             <th>Zwrot</th>
                         </tr>
                     </thead>
@@ -92,19 +74,17 @@ $nazwisko = $row['nazwisko'];
                         $id_czyt = $_GET['id_czyt'];
                         $wynik = mysqli_query($link, 'SELECT * from wypozyczenia, ksiazki where wypozyczenia.id_czytelnik=' . $id_czyt . ' and wypozyczenia.id_ksiazki=ksiazki.id_ksiazki and data_zwrotu IS null');
                         while ($row = mysqli_fetch_array($wynik)) {
-                            echo "<tr><td>" . $row['tytul'] . "</td><td>" . $row['data_wyp'] . "</td><td>" . $row['data_zwrotu'] . "</td><td><a href='./zwroc.php'><button type='button' class='btn-sm btn-info'>Zwróć</button></a></td></tr>";
-                        }
-                        ?>
+                            echo "<tr><td>" . $row['tytul'] . "</td><td>" . $row['data_wyp'] . "</td><td><a href='./zwroc.php?id_wyp=".$row['id_wyp']."&&id_czyt=".$id_czyt."'><button type='button' class='btn-sm btn-info'>Zwróć</button></a></td></tr>";                        }                        ?>
                         
                     </tbody>
                 </table>
-            <br><br><br><br><br><br><br><br><br><br><br>
             </div>
-            <div class="footer">
-                <hr>
-                <p>Projekt wykonał zespół P2/G4</p>
-            </div>
+            
         </div>
     </div>
-
+    <div class="footer">
+                <hr>
+                <p id="stopka">Projekt wykonał zespół P2/G4</p>
+            </div>
+</body>
 </html>

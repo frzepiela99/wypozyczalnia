@@ -41,6 +41,16 @@ if ((isset($_GET['id_czyt'])) && (isset($_GET['anuluj']))) {
         $wynik5= mysqli_query($link, "delete from rezerwacja where id_rez='$anuluj_id'");
     }
 }
+if ((isset($_GET['id_czyt'])) && (isset($_GET['wypozycz']))) {
+    $id_rez= $_GET['wypozycz'];
+    $wynik1= mysqli_query($link, "select id_ksiazki from rezerwacja where id_rez= '$id_rez'");
+    while ($row = mysqli_fetch_array($wynik1)) { 
+        $id_ksiazki=$row['id_ksiazki'];
+    }
+    $wynikn = mysqli_query($link, "INSERT INTO `wypozyczenia` (`id_wyp`, `id_czytelnik`, `id_ksiazki`, `data_wyp`, `data_zwrotu`) VALUES ('', '$id_czyt', '$id_ksiazki', CURRENT_DATE(), NULL)");
+    $wynik3= mysqli_query($link, "delete from rezerwacja where id_rez='$id_rez'");
+
+}
 
 
 ?>
@@ -123,11 +133,12 @@ if ((isset($_GET['id_czyt'])) && (isset($_GET['anuluj']))) {
                     </tbody>
                 </table>
             </div>
-            <footer>
-                <hr>
-            Projekt wykonał zespół P2/G4
-            </footer>
+            
         </div>
     </div>
-
+    <div class="footer">
+                <hr>
+                <p id="stopka">Projekt wykonał zespół P2/G4</p>
+            </div>
+</body>
 </html>

@@ -126,8 +126,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
-    <footer>
-        <hr>
-            Projekt wykonał zespół P2/G4
-            </footer>
+    <div class="footer">
+                <hr>
+                <p id="stopka">Projekt wykonał zespół P2/G4</p>
+            </div>
+</body>
 </html>

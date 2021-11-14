@@ -24,7 +24,7 @@ require("config.php");
     <div class="lewa-panel">
             <div class="logo">
 
-                <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" />
+                <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" /><br><br>
                 <p style="text-align: center;">Panel bibliotekarza</p>
 
             </div>
@@ -54,7 +54,7 @@ require("config.php");
             <h1>🔍 Wyszukaj czytelnika</h1><br>
             <div class="wyszukaj-czytelnika">
             
-            <div class="input-group mb-4" style="width: 700px;">
+            <div class="input-group mb-4" style="width: 50%;">
                 <div class="input-group-text p-0">
                     <select class="form-select form-select-lg shadow-none bg-light border-0" style="font-size: 14px;" id="opcja">
                         <option value="Nazwisko">Nazwisko</option>
@@ -105,12 +105,13 @@ $i++;
                 </table>
             <br><br><br><br><br>
             </div>
-            <div class="footer">
-                <hr>
-                <p>Projekt wykonał zespół P2/G4</p>
-            </div>
+            
         </div>
     </div>
+    <div class="footer">
+                <hr>
+                <p id="stopka">Projekt wykonał zespół P2/G4</p>
+            </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript">

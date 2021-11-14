@@ -35,34 +35,26 @@ require("config.php");
                     if ($_SESSION['admin'] == 0) {
                         echo '<a href="./panel-czyt.php"><button type="button" class="btn btn-primary">Panel czytelnika</button></a>
     <a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a>';
-    if (isset($_GET['name'])) {
-        $kto=$_SESSION["id"];
-        $ksiazka= $_GET['name'];
-        $jeden=1;
-        //$wynik1= mysqli_query($link, "");
-        $wynik1= mysqli_query($link, "select ilosc from ksiazki where id_ksiazki= '$ksiazka'");
-        while ($row = mysqli_fetch_array($wynik1)) { 
-            $ilosc=$row['ilosc'];
-        }
-        if($ilosc > 1)
-        {
-            $nowailosc=$ilosc-1;
-            $wynik2= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$ksiazka'");
-            $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', '2021-11-09', '2021-11-11')");
-
-        }
-        else if($ilosc==$jeden)
-        {
-            $nowailosc=$ilosc-1;
-            $wynik3= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$ksiazka'");
-            $wynik4= mysqli_query($link, "update ksiazki set stan = 1 where id_ksiazki='$ksiazka'");
-            $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', '2021-11-09', '2021-11-11')");
-        }
-
-
-    }
-
-
+                        if (isset($_GET['name'])) {
+                            $kto = $_SESSION["id"];
+                            $ksiazka = $_GET['name'];
+                            $jeden = 1;
+                            //$wynik1= mysqli_query($link, "");
+                            $wynik1 = mysqli_query($link, "select ilosc from ksiazki where id_ksiazki= '$ksiazka'");
+                            while ($row = mysqli_fetch_array($wynik1)) {
+                                $ilosc = $row['ilosc'];
+                            }
+                            if ($ilosc > 1) {
+                                $nowailosc = $ilosc - 1;
+                                $wynik2 = mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$ksiazka'");
+                                $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', CURRENT_DATE(), CURRENT_DATE()+3)");
+                            } else if ($ilosc == $jeden) {
+                                $nowailosc = $ilosc - 1;
+                                $wynik3 = mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$ksiazka'");
+                                $wynik4 = mysqli_query($link, "update ksiazki set stan = 1 where id_ksiazki='$ksiazka'");
+                                $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', CURRENT_DATE(), CURRENT_DATE()+3)");
+                            }
+                        }
                     } elseif ($_SESSION['admin'] == 1) {
                         echo '<a href="./panel-admin.php"><button type="button" class="btn btn-primary">Panel bibliotekarza</button></a>
     <a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a>';
@@ -94,28 +86,28 @@ require("config.php");
         <br>
         <div class="ksiazki">
 
-        <?php
-                        
-            
+            <?php
+
+
             $wynikn = mysqli_query($link, 'SELECT * FROM `ksiazki` WHERE stan =0 ORDER BY id_ksiazki DESC limit 5');
-            while ($row = mysqli_fetch_array($wynikn)) { 
+            while ($row = mysqli_fetch_array($wynikn)) {
                 echo "
                 <div class='card'>
-                <img src='zdjecie/". $row['zdjecie']."' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                <img src='zdjecie/" . $row['zdjecie'] . "' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
                 <hr>
                 <div class='card-body' style='text-align: center;'>
-                <p class='card-tytul' title='".$row['tytul']."'>".$row['tytul']."</p>
-                <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
+                <p class='card-text' style='text-align: center;'>" . $row['autor'] . "</p>
                     <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
-                    <a href='index.php?name=".$row['id_ksiazki']."'> <button type='button' class='btn btn-success'>Wypożycz</button></a>
+                    <a href='index.php?name=" . $row['id_ksiazki'] . "'> <button type='button' class='btn btn-success'>Wypożycz</button></a>
                 </div>
             </div>
                 ";
-                }
+            }
 
 
-        ?>
-        
+            ?>
+
         </div>
 
         <br><br>
@@ -141,121 +133,114 @@ require("config.php");
         </div>
         <br>
         <div id="ksiazki1">
-        <div class="ksiazki">
+            <div class="ksiazki">
 
-            
-                   <?php
 
-                       $liczba=0;
-                        $wynik = mysqli_query($link, 'SELECT * FROM `ksiazki` WHERE stan=0');
-                        while ($row = mysqli_fetch_array($wynik)) {
-                            if($liczba%5==0)
-                            {   
-                                if($liczba>0)
-                                {
-                                echo "</div>
+                <?php
+
+                $liczba = 0;
+                $wynik = mysqli_query($link, 'SELECT * FROM `ksiazki` WHERE stan=0');
+                while ($row = mysqli_fetch_array($wynik)) {
+                    if ($liczba % 5 == 0) {
+                        if ($liczba > 0) {
+                            echo "</div>
                                 <div class='ksiazki'>
                                 ";
-                                }
-                            }
-                            echo "
+                        }
+                    }
+                    echo "
                             <div class='card'>
-                            <img src='zdjecie/". $row['zdjecie']."' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                            <img src='zdjecie/" . $row['zdjecie'] . "' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
                             <hr>
                             <div class='card-body' style='text-align: center;'>
-                            <p class='card-tytul' title='".$row['tytul']."'>".$row['tytul']."</p>
-                            <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                            <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
+                            <p class='card-text' style='text-align: center;'>" . $row['autor'] . "</p>
                                 <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
-                                <a href='index.php?name=".$row['id_ksiazki']."'> <button type='button' class='btn btn-success'>Wypożycz</button></a>
+                                <a href='index.php?name=" . $row['id_ksiazki'] . "'> <button type='button' class='btn btn-success'>Wypożycz</button></a>
                             </div>
                         </div>
                             ";
-                            $liczba=$liczba+1;
-                            
-                            }
-                            $wynik1 = mysqli_query($link, 'SELECT * FROM `ksiazki` WHERE stan=1');
-                            while ($row = mysqli_fetch_array($wynik1)) { 
-                                if($liczba%5==0)
-                            {
-                                echo "</div>
+                    $liczba = $liczba + 1;
+                }
+                $wynik1 = mysqli_query($link, 'SELECT * FROM `ksiazki` WHERE stan=1');
+                while ($row = mysqli_fetch_array($wynik1)) {
+                    if ($liczba % 5 == 0) {
+                        echo "</div>
                                 <div class='ksiazki'>
                                 ";
-                            }
-                                echo "
+                    }
+                    echo "
                                 <div class='card'>
-                                <img src='zdjecie/". $row['zdjecie']."' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                                <img src='zdjecie/" . $row['zdjecie'] . "' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
                                 <hr>
                                 <div class='card-body' style='text-align: center;'>
-                                <p class='card-tytul' title='".$row['tytul']."'>".$row['tytul']."</p>
-                                <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                                <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
+                                <p class='card-text' style='text-align: center;'>" . $row['autor'] . "</p>
                                     <p class='card-text' style='text-align: center; color:#fd078e;'>Wypożyczona</p>
                                     <button type='button' class='btn btn-primary'>Zapisz się</button>
                                 </div>
                             </div>
                                 ";
-                                $liczba=$liczba+1;
-                                
-                                }
-                                $wynik2 = mysqli_query($link, 'SELECT * FROM `ksiazki` WHERE stan=2');
-                                while ($row = mysqli_fetch_array($wynik2)) { 
-                                    if($liczba%5==0)
-                            {
-                                echo "</div>
+                    $liczba = $liczba + 1;
+                }
+                $wynik2 = mysqli_query($link, 'SELECT * FROM `ksiazki` WHERE stan=2');
+                while ($row = mysqli_fetch_array($wynik2)) {
+                    if ($liczba % 5 == 0) {
+                        echo "</div>
                                 <div class='ksiazki'>
                                 ";
-                            }
-                                    echo "
+                    }
+                    echo "
                                     <div class='card'>
-                                    <img src='zdjecie/". $row['zdjecie']."' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                                    <img src='zdjecie/" . $row['zdjecie'] . "' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
                                     <hr>
                                     <div class='card-body' style='text-align: center;'>
-                                    <p class='card-tytul' title='".$row['tytul']."'>".$row['tytul']."</p>
-                                    <p class='card-text' style='text-align: center;'>".$row['autor']."</p>
+                                    <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
+                                    <p class='card-text' style='text-align: center;'>" . $row['autor'] . "</p>
                                         <p class='card-text' style='text-align: center; color:grey;'>Wycofana</p>
                                         <button type='button' class='btn btn-light disabled'>Niedostępna</button>
                                     </div>
                                 </div>
                                     ";
-                                    $liczba=$liczba+1;
-                                    
-                                    }
-                        ?>
+                    $liczba = $liczba + 1;
+                }
+                ?>
 
 
+            </div>
         </div>
     </div>
-    </div>
     <a class="btn-circle1 btn-danger" href="#" role="button" style="height: 10%; margin-left: 95%;"> <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
-</svg> </a>
+            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
+        </svg> </a>
 
-    <hr>
-    <footer style="text-align: center;">
-        <p>Wygląd wykonał Rzepson</p>
+
+    <footer>
+        <hr>
+        <p id="stopka">Projekt wykonał zespół L2/G4</p>
 
     </footer>
-    </div>
-    </body>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        function pokaz() {
-            var opcja = document.getElementById("opcja").value;
-            var wartosc = document.getElementById("wartosc").value;
-            $.ajax({
-                type: "POST",
-                url: "pokaz.php",
-                data: {
-                    option: opcja,
-                    tresc: wartosc
-                }
-            }).done(function(data) {
-                document.getElementById("ksiazki1").innerHTML = data;
-            });
-        }
-    </script>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    function pokaz() {
+        var opcja = document.getElementById("opcja").value;
+        var wartosc = document.getElementById("wartosc").value;
+        $.ajax({
+            type: "POST",
+            url: "pokaz.php",
+            data: {
+                option: opcja,
+                tresc: wartosc
+            }
+        }).done(function(data) {
+            document.getElementById("ksiazki1").innerHTML = data;
+        });
+    }
+</script>
 
 
 </html>
