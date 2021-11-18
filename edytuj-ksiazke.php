@@ -12,6 +12,25 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- FAVICON -->
+        <link rel="apple-touch-icon" sizes="57x57" href="./favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="./favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
+    <link rel="manifest" href="./favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Koniec favicon -->
     <link rel="stylesheet" href="style3.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
     <title>🛠 Panel Administratora</title>
@@ -49,6 +68,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
                 <a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a>
                 <hr>
             </div>
+            <h3>🗃 Księgozbiór biblioteki</h3>
             <br>
             <div class="wyszukaj-czytelnika">
                 <div class="input-group mb-4" style="width: 50%;">
@@ -67,15 +87,27 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
                         </svg>
                     </button>
                 </div>
-                <div class='card'>
-                            <img src='zdjecie/" . $row['zdjecie'] . "' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
-                            <hr>
-                            <div class='card-body' style='text-align: center;'>
-                            <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
-                            <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
-                           <a href="./edycja.php"> <button type='button' class='btn btn-warning'>Edytuj</button></a>
-                            </div>
-                </div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nazwa książki</th>
+      <th>Autor</th>
+      <th>Ilość</th>
+      <th>Stan</th>
+      <th>Edytuj</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Krzyżacy</td>
+      <td>Henryk Sienkiewicz</td>
+      <td>2</td>
+      <td>Dostępna</td>
+      <td><a href="./edycja.php"><button type="button" class="btn btn-warning">Edytuj</button></a></td>
+    </tr>
+    <tr>
+  </tbody>
+</table>
             </div>
 
 

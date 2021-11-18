@@ -103,7 +103,7 @@ session_start();
                 <div class="col-md-3">
                     <h3>📞 Kontakt:</h3><br>
                     <h6 style="margin-left: 5px;">📚 Biblioteka Publiczna</h6>
-                    <span style="margin-left: 25px;">ul.Ludwika Zamenhofa 1a,</span>
+                    <span style="margin-left: 25px;">ul.Zamenhofa 1a,</span>
                     <br>
                     <span style="margin-left: 25px;">33-300 Nowy Sącz</span>
                     <br>
