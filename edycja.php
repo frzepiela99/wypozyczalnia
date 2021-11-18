@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </svg> <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b></span>
                 <a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a><hr>
             </div>
-            <h3>📖 Dodaj książkę!</h3><br>
+            <h3>📝 Edytuj książkę!</h3><br>
             
             <div class="formularz-dodania-ksiazki">
                 <form method="post" action="dodaj-ksiazke.php" enctype="multipart/form-data">
@@ -121,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="przykladoweWysylaniePliku">Zdjęcie okładki</label>
                     <input type="file" class="form-control-file" id="przykladoweWysylaniePliku" name="zdjecie">
                     <br><br>
-                    <input type="submit" class="btn-sm btn-primary" value="Dodaj książkę">
+                    <input type="submit" class="btn-sm btn-primary" value="Edytuj książkę">
                 </form>
                 <br>
             </div>

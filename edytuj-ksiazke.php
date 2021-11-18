@@ -4,13 +4,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     header("location: index.php");
     exit;
 }
-require("config.php");
-$id_czyt = $_GET['id_czyt'];
-$wynik1 = mysqli_query($link, 'SELECT imie, nazwisko from czytelnik where id_czytelnik=' . $id_czyt.'');
-while ($row = mysqli_fetch_array($wynik1)) {
-$imie = $row['imie'];
-$nazwisko = $row['nazwisko'];
-}
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -27,10 +20,10 @@ $nazwisko = $row['nazwisko'];
 <body>
     <div class="calosc">
 
-    <div class="lewa-panel">
+        <div class="lewa-panel">
             <div class="logo">
 
-                <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" /><br><br>
+                <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" /> <br><br>
                 <p style="text-align: center;">Panel bibliotekarza</p>
 
             </div>
@@ -57,43 +50,44 @@ $nazwisko = $row['nazwisko'];
                 <hr>
             </div>
             <br>
-            <h1>🧑🏼 Dane czytelnika  <?php echo $imie; echo " $nazwisko";?></h1><br>
             <div class="wyszukaj-czytelnika">
- 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Imię</th>
-                            <th>Nazwisko</th>
-                            <th>E-Mail</th>
-                            <th>Numer telefonu</th>
-                            <th>Miejsce zamieszkanie</th>
-                            <th>Ulica</th>
-                            <th>Numer domu</th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    <?php
-                    $id_czyt=$_GET['id_czyt'];
-$id = $_SESSION['id'];
-$wynik = mysqli_query($link, 'SELECT Imie, Nazwisko, Mail, Nr_telefonu, Miejscowosc, Ulica, Nr_domu FROM czytelnik WHERE Id_czytelnik ='.$id_czyt );
-while ($row = mysqli_fetch_array($wynik)) {
-    echo "<tr><td>" . $row['Imie'] . "</td><td>" . $row['Nazwisko'] . "</td><td>" . $row['Mail'] . "</td><td>" . $row['Nr_telefonu'] . "</td><td>" . $row['Miejscowosc'] . "</td><td>" . $row['Ulica'] . "</td><td>" . $row['Nr_domu'] . "</td></tr>";
-}
-
-                    ?>
-
-
-                    </tbody>
-                </table>
+                <div class="input-group mb-4" style="width: 50%;">
+                    <div class="input-group-text p-0">
+                        <select class="form-select form-select-lg shadow-none bg-light border-0" style="font-size: 14px;" id="opcja">
+                            <option value="tytul">Tytuł</option>
+                            <option value="autor">Autor</option>
+                            <option value="gatunek">Gatunek</option>
+                            <option value="wydawnictwo">Wydawnictwo</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Wyszukaj" id="wartosc">
+                    <button class="input-group-text shadow-none px-4 btn-warning" onclick="pokaz()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class='card'>
+                            <img src='zdjecie/" . $row['zdjecie'] . "' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                            <hr>
+                            <div class='card-body' style='text-align: center;'>
+                            <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
+                            <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
+                           <a href="./edycja.php"> <button type='button' class='btn btn-warning'>Edytuj</button></a>
+                            </div>
+                </div>
             </div>
+
+
+
+
+
         </div>
     </div>
     <div class="footer">
-                <hr>
-                <p id="stopka">Projekt wykonał zespół P2/G4</p>
-            </div>
+        <hr>
+        <p id="stopka">Projekt wykonał zespół P2/G4</p>
+    </div>
 </body>
+
 </html>

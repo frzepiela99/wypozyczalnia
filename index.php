@@ -13,51 +13,59 @@ require("config.php");
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
+    <script src="script.js" defer></script>
 </head>
 
 <body style="background-image: url(./img/bg.png); background-attachment: fixed;">
-    <header>
-
-
-        <!-- Toolbar -->
-        <div class="toolbar" role="banner">
-            <img width="180" alt="Logo" src="https://i.ibb.co/K7Th4wq/logobib.png" />
-
-            <div class="spacer"></div>
-            <div class="menu-gora">
-                <a href="./index.php"><button type="button" class="btn btn-link">Strona Główna</button></a>
-                <a href="./kontakt.php"><button type="button" class="btn btn-link">Kontakt</button></a>
-
-                <?php
+<nav class="navbar" role="banner">
+<img width="180" alt="Logo" src="./img/logo.png" />
+        <a href="#" class="toggle-button">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </a>
+        <div class="navbar-links">
+          <ul>
+            <li><a href="./index.php"><button type="button" class="btn btn-link">Strona Główna</button></a></li>
+            <li><a href="./kontakt.php"><button type="button" class="btn btn-link">Kontakt</button></a></li>
+            <?php
 
 
                 if (isset($_SESSION['loggedin'])) {
                     if ($_SESSION['admin'] == 0) {
-                        echo '<a href="./panel-czyt.php"><button type="button" class="btn btn-primary">Panel czytelnika</button></a>
-    <a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a>';
-                        if (isset($_GET['name'])) {
-                            $kto = $_SESSION["id"];
-                            $ksiazka = $_GET['name'];
-                            $jeden = 1;
-                            //$wynik1= mysqli_query($link, "");
-                            $wynik1 = mysqli_query($link, "select ilosc from ksiazki where id_ksiazki= '$ksiazka'");
-                            while ($row = mysqli_fetch_array($wynik1)) {
-                                $ilosc = $row['ilosc'];
-                            }
-                            if ($ilosc > 1) {
-                                $nowailosc = $ilosc - 1;
-                                $wynik2 = mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$ksiazka'");
-                                $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', CURRENT_DATE(), CURRENT_DATE()+3)");
-                            } else if ($ilosc == $jeden) {
-                                $nowailosc = $ilosc - 1;
-                                $wynik3 = mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$ksiazka'");
-                                $wynik4 = mysqli_query($link, "update ksiazki set stan = 1 where id_ksiazki='$ksiazka'");
-                                $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', CURRENT_DATE(), CURRENT_DATE()+3)");
-                            }
-                        }
+                        echo '<li><a href="./panel-czyt.php"><button type="button" class="btn btn-primary">Panel czytelnika</button></a></li>
+    <li><a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a></li>';
+    if (isset($_GET['name'])) {
+        $kto=$_SESSION["id"];
+        $ksiazka= $_GET['name'];
+        $jeden=1;
+        //$wynik1= mysqli_query($link, "");
+        $wynik1= mysqli_query($link, "select ilosc from ksiazki where id_ksiazki= '$ksiazka'");
+        while ($row = mysqli_fetch_array($wynik1)) {
+            $ilosc=$row['ilosc'];
+        }
+        if($ilosc > 1)
+        {
+            $nowailosc=$ilosc-1;
+            $wynik2= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$ksiazka'");
+            $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', '2021-11-09', '2021-11-11')");
+
+        }
+        else if($ilosc==$jeden)
+        {
+            $nowailosc=$ilosc-1;
+            $wynik3= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$ksiazka'");
+            $wynik4= mysqli_query($link, "update ksiazki set stan = 1 where id_ksiazki='$ksiazka'");
+            $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', '2021-11-09', '2021-11-11')");
+        }
+
+
+    }
+
+
                     } elseif ($_SESSION['admin'] == 1) {
-                        echo '<a href="./panel-admin.php"><button type="button" class="btn btn-primary">Panel bibliotekarza</button></a>
-    <a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a>';
+                        echo '<li><a href="./panel-admin.php"><button type="button" class="btn btn-primary">Panel bibliotekarza</button></a></li>
+                        <li><a href="./logout.php"><button type="button" class="btn btn-primary">Wyloguj</button></a></li>';
                     }
                 } else {
                     echo '<button class="btn btn-primary" type="button" id="przykladowaLista" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -72,15 +80,15 @@ require("config.php");
         </svg> Konto bibliotekarza</a>
 </div>
 
-<a href="./register.php"><button type="button" class="btn btn-primary">Rejestracja</button></a>';
+<li><a href="./register.php"><button type="button" class="btn btn-primary">Rejestracja</button></a></li>';
                 }
 
                 ?>
-
+                </ul>
             </div>
-        </div>
-    </header>
-
+        </nav>
+    
+    <div class="container">
     <div class="content">
         <h2>🆕 Nowości</h2>
         <br>
@@ -97,7 +105,7 @@ require("config.php");
                 <hr>
                 <div class='card-body' style='text-align: center;'>
                 <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
-                <p class='card-text' style='text-align: center;'>" . $row['autor'] . "</p>
+                <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
                     <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
                     <a href='index.php?name=" . $row['id_ksiazki'] . "'> <button type='button' class='btn btn-success'>Wypożycz</button></a>
                 </div>
@@ -154,8 +162,8 @@ require("config.php");
                             <hr>
                             <div class='card-body' style='text-align: center;'>
                             <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
-                            <p class='card-text' style='text-align: center;'>" . $row['autor'] . "</p>
-                                <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
+                            <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
+                            <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
                                 <a href='index.php?name=" . $row['id_ksiazki'] . "'> <button type='button' class='btn btn-success'>Wypożycz</button></a>
                             </div>
                         </div>
@@ -175,8 +183,8 @@ require("config.php");
                                 <hr>
                                 <div class='card-body' style='text-align: center;'>
                                 <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
-                                <p class='card-text' style='text-align: center;'>" . $row['autor'] . "</p>
-                                    <p class='card-text' style='text-align: center; color:#fd078e;'>Wypożyczona</p>
+                                <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
+                                <p class='card-text' style='text-align: center; color:#fd078e;'>Wypożyczona</p>
                                     <button type='button' class='btn btn-primary'>Zapisz się</button>
                                 </div>
                             </div>
@@ -196,8 +204,8 @@ require("config.php");
                                     <hr>
                                     <div class='card-body' style='text-align: center;'>
                                     <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
-                                    <p class='card-text' style='text-align: center;'>" . $row['autor'] . "</p>
-                                        <p class='card-text' style='text-align: center; color:grey;'>Wycofana</p>
+                                    <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
+                                    <p class='card-text' style='text-align: center; color:grey;'>Wycofana</p>
                                         <button type='button' class='btn btn-light disabled'>Niedostępna</button>
                                     </div>
                                 </div>
