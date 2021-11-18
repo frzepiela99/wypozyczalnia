@@ -109,6 +109,34 @@ require("config.php");
     
     <div class="container">
     <div class="content">
+    <h2>🔝5️⃣ Najczęściej wypożyczane książki</h2>
+        <br>
+        <div class="ksiazki">
+
+            <?php
+
+
+            $wyniktop = mysqli_query($link, 'select wypozyczenia.id_ksiazki, COUNT(wypozyczenia.id_ksiazki) as fajne,ksiazki.tytul, ksiazki.autor, ksiazki.zdjecie from wypozyczenia left JOIN ksiazki on ksiazki.id_ksiazki=wypozyczenia.id_ksiazki GROUP BY wypozyczenia.id_ksiazki ORDER by fajne DESC limit 5');
+            while ($row = mysqli_fetch_array($wyniktop)) {
+                echo "
+                <div class='card'>
+                <img src='zdjecie/" . $row['zdjecie'] . "' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
+                <hr>
+                <div class='card-body' style='text-align: center;'>
+                <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
+                <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
+                    <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
+                    <a href='index.php?name=" . $row['id_ksiazki'] . "'> <button type='button' class='btn btn-success'>Wypożycz</button></a>
+                </div>
+            </div>
+                ";
+            }
+
+
+            ?>
+
+        </div>
+<br>
         <h2>🆕 Nowości</h2>
         <br>
         <div class="ksiazki">
