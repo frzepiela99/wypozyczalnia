@@ -2,6 +2,8 @@
 // Initialize the session
 session_start();
 require("config.php");
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -67,7 +69,7 @@ require("config.php");
         {
             $nowailosc=$ilosc-1;
             $wynik2= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$ksiazka'");
-            $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', '2021-11-09', '2021-11-11')");
+            $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', CURRENT_DATE(), CURRENT_DATE()+7)");
 
         }
         else if($ilosc==$jeden)
@@ -75,10 +77,10 @@ require("config.php");
             $nowailosc=$ilosc-1;
             $wynik3= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$ksiazka'");
             $wynik4= mysqli_query($link, "update ksiazki set stan = 1 where id_ksiazki='$ksiazka'");
-            $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', '2021-11-09', '2021-11-11')");
+            $wynikn = mysqli_query($link, "INSERT INTO `rezerwacja` (`id_rez`, `id_czytelnik`, `id_ksiazki`, `data_rez`, `data_k_rez`) VALUES (NULL, '$kto', '$ksiazka', CURRENT_DATE(), CURRENT_DATE()+7)");
         }
 
-
+        header("location: index.php");
     }
 
 
@@ -98,7 +100,6 @@ require("config.php");
             <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"></path>
         </svg> Konto bibliotekarza</a>
 </div>
-
 <li><a href="./register.php"><button type="button" class="btn btn-primary">Rejestracja</button></a></li>';
                 }
 
@@ -116,17 +117,39 @@ require("config.php");
             <?php
 
 
-            $wyniktop = mysqli_query($link, 'select wypozyczenia.id_ksiazki, COUNT(wypozyczenia.id_ksiazki) as fajne,ksiazki.tytul, ksiazki.autor, ksiazki.zdjecie from wypozyczenia left JOIN ksiazki on ksiazki.id_ksiazki=wypozyczenia.id_ksiazki GROUP BY wypozyczenia.id_ksiazki ORDER by fajne DESC limit 5');
+            $wyniktop = mysqli_query($link, 'select  wypozyczenia.id_ksiazki, COUNT(wypozyczenia.id_ksiazki) as fajne,ksiazki.tytul, ksiazki.opis, ksiazki.autor, ksiazki.zdjecie, ksiazki.tytul, ksiazki.gatunek, ksiazki.wydawnictwo, ksiazki.rok_wydania, ksiazki.zdjecie from wypozyczenia left JOIN ksiazki on ksiazki.id_ksiazki=wypozyczenia.id_ksiazki where ksiazki.stan =0 GROUP BY wypozyczenia.id_ksiazki ORDER by fajne DESC limit 5');
             while ($row = mysqli_fetch_array($wyniktop)) {
                 echo "
                 <div class='card'>
                 <img src='zdjecie/" . $row['zdjecie'] . "' class='card-img-top' style='width: 100%; height: 240px;' alt='...'>
                 <hr>
                 <div class='card-body' style='text-align: center;'>
-                <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
-                <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
+                    <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
+                    <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
+                    <button type='button' class='btn btn-outline-warning btn-sm' data-toggle='modal' data-target='#przykladowyModal1". $row['id_ksiazki'] ."'>Informacje</button><br>
                     <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
                     <a href='index.php?name=" . $row['id_ksiazki'] . "'> <button type='button' class='btn btn-success'>Wypożycz</button></a>
+                </div>
+                <div class='modal' id='przykladowyModal1". $row['id_ksiazki'] ."' tabindex='-1' role='dialog'>
+                    <div class='modal-dialog' role='document'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                        <h5 class='modal-title'>Informacje o książce</h5>
+                        </div>
+                        <div class='modal-body'>
+                        <img src='zdjecie/" . $row['zdjecie'] . "' style='float: left; width: 160px; height: 240px; margin-right: 10px;'>
+                        <p><b>Tytuł: </b> " . $row['tytul'] . "</p>
+                                <p><b>Autor: </b>" . $row['autor'] . "</p>
+                                <p><b>Gatunek: </b>" . $row['gatunek'] . "</p>
+                                <p><b>Wydawnictwo: </b>" . $row['wydawnictwo'] . "</p>
+                                <p><b>Rok wydania: </b>" . $row['rok_wydania'] . "</p>
+                                <p style='text-align: justify;'><b>Opis: </b>" . $row['opis'] . "</p>                        
+                        </div>
+                        <div class='modal-footer'>
+                        <button type='button' class='btn btn-secondary' data-dismiss='modal'>Zamknij</button>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
                 ";
@@ -153,9 +176,31 @@ require("config.php");
                 <div class='card-body' style='text-align: center;'>
                 <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
                 <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
+                <button type='button' class='btn btn-outline-warning btn-sm' data-toggle='modal' data-target='#przykladowyModal2". $row['id_ksiazki'] ."'>Informacje</button><br>
                     <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
                     <a href='index.php?name=" . $row['id_ksiazki'] . "'> <button type='button' class='btn btn-success'>Wypożycz</button></a>
                 </div>
+                <div class='modal' id='przykladowyModal2". $row['id_ksiazki'] ."' tabindex='-1' role='dialog'>
+                <div class='modal-dialog' role='document'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                    <h5 class='modal-title'>Informacje o książce</h5>
+                    </div>
+                    <div class='modal-body'>
+                    <img src='zdjecie/" . $row['zdjecie'] . "' style='float: left; width: 160px; height: 240px; margin-right: 10px;'>
+                    <p><b>Tytuł: </b> " . $row['tytul'] . "</p>
+                    <p><b>Autor: </b>" . $row['autor'] . "</p>
+                    <p><b>Gatunek: </b>" . $row['gatunek'] . "</p>
+                    <p><b>Wydawnictwo: </b>" . $row['wydawnictwo'] . "</p>
+                    <p><b>Rok wydania: </b>" . $row['rok_wydania'] . "</p>
+                    <p style='text-align: justify;'><b>Opis: </b>" . $row['opis'] . "</p>                    
+                    </div>
+                    <div class='modal-footer'>
+                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Zamknij</button>
+                    </div>
+                </div>
+                </div>
+            </div>
             </div>
                 ";
             }
@@ -210,9 +255,31 @@ require("config.php");
                             <div class='card-body' style='text-align: center;'>
                             <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
                             <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
+                            <button type='button' class='btn btn-outline-warning btn-sm' data-toggle='modal' data-target='#przykladowyModal3". $row['id_ksiazki'] ."'>Informacje</button><br>
                             <p class='card-text' style='text-align: center; color:green;'>Dostępna</p>
                                 <a href='index.php?name=" . $row['id_ksiazki'] . "'> <button type='button' class='btn btn-success'>Wypożycz</button></a>
                             </div>
+                            <div class='modal' id='przykladowyModal3". $row['id_ksiazki'] ."' tabindex='-1' role='dialog'>
+                            <div class='modal-dialog' role='document'>
+                            <div class='modal-content'>
+                                <div class='modal-header'>
+                                <h5 class='modal-title'>Informacje o książce</h5>
+                                </div>
+                                <div class='modal-body'>
+                                <img src='zdjecie/" . $row['zdjecie'] . "' style='float: left; width: 160px; height: 240px; margin-right: 10px;'>
+                                <p><b>Tytuł: </b> " . $row['tytul'] . "</p>
+                                <p><b>Autor: </b>" . $row['autor'] . "</p>
+                                <p><b>Gatunek: </b>" . $row['gatunek'] . "</p>
+                                <p><b>Wydawnictwo: </b>" . $row['wydawnictwo'] . "</p>
+                                <p><b>Rok wydania: </b>" . $row['rok_wydania'] . "</p>
+                                <p style='text-align: justify;'><b>Opis: </b>" . $row['opis'] . "</p>                                
+                                </div>
+                                <div class='modal-footer'>
+                                <button type='button' class='btn btn-secondary' data-dismiss='modal'>Zamknij</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
                         </div>
                             ";
                     $liczba = $liczba + 1;
@@ -231,9 +298,32 @@ require("config.php");
                                 <div class='card-body' style='text-align: center;'>
                                 <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
                                 <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
+                                <button type='button' class='btn btn-outline-warning btn-sm' data-toggle='modal' data-target='#przykladowyModal3". $row['id_ksiazki'] ."'>Informacje</button><br>
                                 <p class='card-text' style='text-align: center; color:#fd078e;'>Wypożyczona</p>
                                     <button type='button' class='btn btn-primary'>Zapisz się</button>
                                 </div>
+                                <div class='modal' id='przykladowyModal3". $row['id_ksiazki'] ."' tabindex='-1' role='dialog'>
+                                <div class='modal-dialog' role='document'>
+                                <div class='modal-content'>
+                                    <div class='modal-header'>
+                                    <h5 class='modal-title'>Informacje o książce</h5>
+                                    </div>
+                                    <div class='modal-body'>
+                                    <img src='zdjecie/" . $row['zdjecie'] . "' style='float: left; width: 160px; height: 240px; margin-right: 10px;'>
+                                    <p><b>Tytuł: </b> " . $row['tytul'] . "</p>
+                                <p><b>Autor: </b>" . $row['autor'] . "</p>
+                                <p><b>Gatunek: </b>" . $row['gatunek'] . "</p>
+                                <p><b>Wydawnictwo: </b>" . $row['wydawnictwo'] . "</p>
+                                <p><b>Rok wydania: </b>" . $row['rok_wydania'] . "</p>
+                                <p style='text-align: justify;'><b>Opis: </b>" . $row['opis'] . "</p>
+                                    
+                                    </div>
+                                    <div class='modal-footer'>
+                                    <button type='button' class='btn btn-secondary' data-dismiss='modal'>Zamknij</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
                             </div>
                                 ";
                     $liczba = $liczba + 1;
@@ -252,9 +342,32 @@ require("config.php");
                                     <div class='card-body' style='text-align: center;'>
                                     <p class='card-tytul' title='" . $row['tytul'] . "'>" . $row['tytul'] . "</p>
                                     <p class='card-autor' title='" . $row['autor'] . "'>" . $row['autor'] . "</p>
+                                    <button type='button' class='btn btn-outline-warning btn-sm' data-toggle='modal' data-target='#przykladowyModal3". $row['id_ksiazki'] ."'>Informacje</button><br>
                                     <p class='card-text' style='text-align: center; color:grey;'>Wycofana</p>
                                         <button type='button' class='btn btn-light disabled'>Niedostępna</button>
                                     </div>
+                                    <div class='modal' id='przykladowyModal3". $row['id_ksiazki'] ."' tabindex='-1' role='dialog'>
+                                    <div class='modal-dialog' role='document'>
+                                    <div class='modal-content'>
+                                        <div class='modal-header'>
+                                        <h5 class='modal-title'>Informacje o książce</h5>
+                                        </div>
+                                        <div class='modal-body'>
+                                        <img src='zdjecie/" . $row['zdjecie'] . "' style='float: left; width: 160px; height: 240px; margin-right: 10px;'>
+                                        <p><b>Tytuł: </b> " . $row['tytul'] . "</p>
+                                        <p><b>Autor: </b>" . $row['autor'] . "</p>
+                                        <p><b>Gatunek: </b>" . $row['gatunek'] . "</p>
+                                        <p><b>Wydawnictwo: </b>" . $row['wydawnictwo'] . "</p>
+                                        <p><b>Rok wydania: </b>" . $row['rok_wydania'] . "</p>
+                                        <p style='text-align: justify;'><b>Opis: </b>" . $row['opis'] . "</p>
+                                        
+                                        </div>
+                                        <div class='modal-footer'>
+                                        <button type='button' class='btn btn-secondary' data-dismiss='modal'>Zamknij</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
                                 </div>
                                     ";
                     $liczba = $liczba + 1;

@@ -5,17 +5,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION[
     exit;
 }
 require("config.php");
-$ostatni=0;
-$ostatni=$ostatni.".png";
-$wynikn = mysqli_query($link, 'SELECT id_ksiazki FROM `ksiazki` ORDER BY id_ksiazki DESC LIMIT 1');
-            while ($row = mysqli_fetch_array($wynikn)) { 
-                $ostatni=$row['id_ksiazki']+1;
-                $ostatni=$ostatni.".png";
-                //echo $ostatni;
-            }
-         
+$numer = $_GET['numer'];
 
+
+
+
+        
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $ostatni=$numer;
+    $ostatni=$ostatni.".png";
     // collect value of input field
     $tytul = $_POST['tytul'];
     $autor = $_POST['autor'];
@@ -36,7 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo $opis."<br>";
     */
 
-    if (empty($tytul)||empty($autor) || empty($nr_ksiazki)|| empty($gatunek)|| empty($wydawnictwo)|| empty($rok_wyd)) 
+    
+
+    if (empty($tytul)||empty($autor) || empty($gatunek)|| empty($wydawnictwo)|| empty($rok_wyd)) 
     {
       echo "Uzupełnij wszystkie dane";
       
@@ -47,12 +48,67 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $file_name = $_FILES['zdjecie']['name'];
             $file_tmp =$_FILES['zdjecie']['tmp_name'];
           //echo $ostatni;
-            $wynikn = mysqli_query($link, "INSERT INTO `ksiazki` (`id_ksiazki`, `tytul`, `autor`, `gatunek`, `wydawnictwo`, `rok_wydania`, `zdjecie`, `stan`, `ilosc`) VALUES (NULL, '$tytul', '$autor', '$gatunek', '$wydawnictwo', '$rok_wyd', '$ostatni', '0', '$nr_ksiazki')");
-        move_uploaded_file($file_tmp,"zdjecie/".$ostatni);
+        $wynikn = mysqli_query($link, "update ksiazki set tytul='$tytul', autor='$autor', gatunek='$gatunek', wydawnictwo='$wydawnictwo', opis='$opis', rok_wydania='$rok_wyd', ilosc='$nr_ksiazki', zdjecie='$ostatni' where id_ksiazki='$numer'");
         
+        if($nr_ksiazki>0)
+        {
+            $wyniknn = mysqli_query($link, "update ksiazki set stan=0 where id_ksiazki='$numer'");
+         
+        }
+        else if($nr_ksiazki==0)
+        {
+
+
+            $zap= mysqli_query($link, "SELECT * FROM `wypozyczenia` WHERE data_zwrotu is null and id_ksiazki='$numer'");
+            $row_cnt = mysqli_num_rows($zap);
+            $zap1= mysqli_query($link, "SELECT * FROM `rezerwacja` WHERE id_ksiazki='$numer'");
+            $row_cnt1 = mysqli_num_rows($zap1);
+
+
+
+            if($row_cnt>0 || $row_cnt1 >0)
+            {
+                $wyniknn = mysqli_query($link, "update ksiazki set stan=1 where id_ksiazki='$numer'");
+            }
+
+            else {
+                $wyniknn = mysqli_query($link, "update ksiazki set stan=2 where id_ksiazki='$numer'");
+            }
+            
+         
+        }
+       
+       
+        move_uploaded_file($file_tmp,"zdjecie/".$ostatni);
+       
 
 
   }
+  else {
+      echo "brak foty";
+  }
+}
+
+header("location: edytuj-ksiazke.php");
+}
+
+
+
+if (isset($_GET['numer'])) {
+
+//echo $numer;
+$wynik1= mysqli_query($link, "select * from ksiazki where id_ksiazki=$numer");
+while ($row = mysqli_fetch_array($wynik1)) {
+
+    $tytul=$row['tytul'];
+    $autor=$row['autor'];
+    $gatunek=$row['gatunek'];
+    $wydawnictwo=$row['wydawnictwo'];
+    $rok_wyd=$row['rok_wydania'];
+    $zdjecie=$row['zdjecie'];
+    $ilosc=$row['ilosc'];
+    $opis=$row['opis'];
+
 }
 }
 
@@ -102,21 +158,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h3>📝 Edytuj książkę!</h3><br>
             
             <div class="formularz-dodania-ksiazki">
-                <form method="post" action="dodaj-ksiazke.php" enctype="multipart/form-data">
+                <?php
+                    echo "<form method='post' action='edycja.php?numer=$numer' enctype='multipart/form-data'>";
+                ?>
+                <form method="post" action="edycja.php" enctype="multipart/form-data">
                     <label for="tytul">Tytuł</label>
-                    <input type="text" class="form-control" id="tytul" name="tytul" placeholder="Wpisz Tytuł" style="width: 400px;">
+                    <input type="text" class="form-control" id="tytul" name="tytul" placeholder="Wpisz Tytuł" style="width: 400px;" value="<?php echo $tytul;?>">
                     <label for="autor">Autor</label>
-                    <input type="text" class="form-control" id="autor" name="autor" placeholder="Wpisz autora">
+                    <input type="text" class="form-control" id="autor" name="autor" placeholder="Wpisz autora"value="<?php echo $autor;?>">
                     <label for="nr_ksiazki">Ilość książki</label>
-                    <input type="number" class="form-control" id="nr_ksiazki" name="nr_ksiazki" placeholder="Wpisz ilość książek">
+                    <input type="number" class="form-control" id="nr_ksiazki" name="nr_ksiazki" placeholder="Wpisz ilość książek" value="<?php echo $ilosc;?>">
                     <label for="gatunek">Gatunek</label>
-                    <input type="text" class="form-control" id="gatunek" name="gatunek" placeholder="Wpisz gatunek">
+                    <input type="text" class="form-control" id="gatunek" name="gatunek" placeholder="Wpisz gatunek" value="<?php echo $gatunek;?>">
                     <label for="wydawnictwo">Wydawnictwo</label>
-                    <input type="text" class="form-control" id="wydawnictwo" name="wydawnictwo" placeholder="Wpisz nazwe wydawnictwa">
+                    <input type="text" class="form-control" id="wydawnictwo" name="wydawnictwo" placeholder="Wpisz nazwe wydawnictwa" value="<?php echo $wydawnictwo;?>">
                     <label for="rok_wyd">Rok wydania</label>
-                    <input type="number" class="form-control" id="rok_wyd" name="rok_wyd" placeholder="Wpisz rok wydania">
+                    <input type="number" class="form-control" id="rok_wyd" name="rok_wyd" placeholder="Wpisz rok wydania" value="<?php echo $rok_wyd;?>">
                     <label for="opis">Opis</label>
-                    <textarea class="form-control" id="opis" name="opis" rows="3"></textarea>
+                    <textarea class="form-control" id="opis" name="opis" rows="3"><?php echo $opis;?> </textarea>
                     <br>
                     <label for="przykladoweWysylaniePliku">Zdjęcie okładki</label>
                     <input type="file" class="form-control-file" id="przykladoweWysylaniePliku" name="zdjecie">

@@ -10,6 +10,7 @@ $id_wyp=$_GET['id_wyp'];
 $id_czyt=$_GET['id_czyt'];
 $jeden=1;
 $zero=0;
+$dwa=2;
 if(isset($_GET['id_wyp'])){
 $wynik1= mysqli_query($link, "select id_ksiazki from wypozyczenia where id_wyp= '$id_wyp'");
     while ($row = mysqli_fetch_array($wynik1)) { 
@@ -31,6 +32,12 @@ $wynik1= mysqli_query($link, "select id_ksiazki from wypozyczenia where id_wyp= 
     {
         $nowailosc=$ilosc+1;
         $wynik4= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$id_ksiazki'");
+        $wynik2= mysqli_query($link, "update wypozyczenia set data_zwrotu = CURRENT_DATE() where id_wyp='$id_wyp'");
+    }
+    else if($stan==$dwa)
+    {
+        $wynik3= mysqli_query($link, "update ksiazki set stan = 0 where id_ksiazki='$id_ksiazki'");
+        $wynik4= mysqli_query($link, "update ksiazki set ilosc = 1 where id_ksiazki='$id_ksiazki'");
         $wynik2= mysqli_query($link, "update wypozyczenia set data_zwrotu = CURRENT_DATE() where id_wyp='$id_wyp'");
     }
 

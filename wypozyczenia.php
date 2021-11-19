@@ -59,8 +59,9 @@ $nazwisko = $row['nazwisko'];
             <br>
             <h1>📚 Wypożyczenia użytkownika  <?php echo $imie; echo " $nazwisko";?></h1><br>
             <div class="wyszukaj-czytelnika">
-                
-                <table class="table table-striped">
+
+            <a href="test.php"><button type='button' class='btn-sm btn-info' onclick="window.print()">Drukuj</button></a>
+            <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Tytuł książki</th>

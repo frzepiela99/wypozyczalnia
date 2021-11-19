@@ -16,7 +16,7 @@ if ((isset($_GET['id_czyt'])) && (isset($_GET['anuluj']))) {
     $anuluj_id= $_GET['anuluj'];
     $jeden=1;
     $zero=0;
-
+    $id_czyt=$_GET['id_czyt'];
     //$wynik1= mysqli_query($link, "");
     $wynik1= mysqli_query($link, "select id_ksiazki from rezerwacja where id_rez= '$anuluj_id'");
     while ($row = mysqli_fetch_array($wynik1)) { 
@@ -40,16 +40,20 @@ if ((isset($_GET['id_czyt'])) && (isset($_GET['anuluj']))) {
         $wynik4= mysqli_query($link, "update ksiazki set ilosc = '$nowailosc' where id_ksiazki='$id_ksiazki'");
         $wynik5= mysqli_query($link, "delete from rezerwacja where id_rez='$anuluj_id'");
     }
+
+    header("location: rezerwacje.php?id_czyt=$id_czyt");
+
 }
 if ((isset($_GET['id_czyt'])) && (isset($_GET['wypozycz']))) {
     $id_rez= $_GET['wypozycz'];
+    $id_czyt=$_GET['id_czyt'];
     $wynik1= mysqli_query($link, "select id_ksiazki from rezerwacja where id_rez= '$id_rez'");
     while ($row = mysqli_fetch_array($wynik1)) { 
         $id_ksiazki=$row['id_ksiazki'];
     }
     $wynikn = mysqli_query($link, "INSERT INTO `wypozyczenia` (`id_wyp`, `id_czytelnik`, `id_ksiazki`, `data_wyp`, `data_zwrotu`) VALUES ('', '$id_czyt', '$id_ksiazki', CURRENT_DATE(), NULL)");
     $wynik3= mysqli_query($link, "delete from rezerwacja where id_rez='$id_rez'");
-
+    header("location: rezerwacje.php?id_czyt=$id_czyt");
 }
 
 

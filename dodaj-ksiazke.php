@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $file_name = $_FILES['zdjecie']['name'];
             $file_tmp =$_FILES['zdjecie']['tmp_name'];
           //echo $ostatni;
-            $wynikn = mysqli_query($link, "INSERT INTO `ksiazki` (`id_ksiazki`, `tytul`, `autor`, `gatunek`, `wydawnictwo`, `rok_wydania`, `zdjecie`, `stan`, `ilosc`) VALUES (NULL, '$tytul', '$autor', '$gatunek', '$wydawnictwo', '$rok_wyd', '$ostatni', '0', '$nr_ksiazki')");
+            $wynikn = mysqli_query($link, "INSERT INTO `ksiazki` (`id_ksiazki`, `tytul`, `autor`, `gatunek`, `wydawnictwo`, `rok_wydania`, `zdjecie`, `stan`, `ilosc`, `opis`) VALUES (NULL, '$tytul', '$autor', '$gatunek', '$wydawnictwo', '$rok_wyd', '$ostatni', '0', '$nr_ksiazki', '$opis')");
         move_uploaded_file($file_tmp,"zdjecie/".$ostatni);
         
 

@@ -4,6 +4,32 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     header("location: index.php");
     exit;
 }
+
+require("config.php");
+
+if (isset($_GET['skasuj'])) {
+
+    $numer= $_GET['skasuj'];
+    
+    $zap= mysqli_query($link, "SELECT * FROM `wypozyczenia` WHERE data_zwrotu is null and id_ksiazki='$numer'");
+    $row_cnt = mysqli_num_rows($zap);
+    $zap1= mysqli_query($link, "SELECT * FROM `rezerwacja` WHERE id_ksiazki='$numer'");
+    $row_cnt1 = mysqli_num_rows($zap1);
+
+
+
+    if($row_cnt>0 || $row_cnt1 >0)
+    {
+    echo '<script>alert("Ksiazka jest wypożyczona lub zarezerwowana")</script>';
+    }
+    else {
+
+        $wynik1= mysqli_query($link, "delete from ksiazki where id_ksiazki='$numer'");
+    }
+    header("location: edytuj-ksiazke.php");
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -14,23 +40,23 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- FAVICON -->
         <link rel="apple-touch-icon" sizes="57x57" href="./favicon/apple-icon-57x57.png">
-        <link rel="apple-touch-icon" sizes="60x60" href="./favicon/apple-icon-60x60.png">
-        <link rel="apple-touch-icon" sizes="72x72" href="./favicon/apple-icon-72x72.png">
-        <link rel="apple-touch-icon" sizes="76x76" href="./favicon/apple-icon-76x76.png">
-        <link rel="apple-touch-icon" sizes="114x114" href="./favicon/apple-icon-114x114.png">
-        <link rel="apple-touch-icon" sizes="120x120" href="./favicon/apple-icon-120x120.png">
-        <link rel="apple-touch-icon" sizes="144x144" href="./favicon/apple-icon-144x144.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="./favicon/apple-icon-152x152.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-icon-180x180.png">
-        <link rel="icon" type="image/png" sizes="192x192"  href="./favicon/android-icon-192x192.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="96x96" href="./favicon/favicon-96x96.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
-        <link rel="manifest" href="./favicon/manifest.json">
-        <meta name="msapplication-TileColor" content="#ffffff">
-        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-        <meta name="theme-color" content="#ffffff">
-        <!-- Koniec favicon -->
+    <link rel="apple-touch-icon" sizes="60x60" href="./favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="./favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
+    <link rel="manifest" href="./favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Koniec favicon -->
     <link rel="stylesheet" href="style3.css">
     <link rel="stylesheet" href="./css/bootstrap.css">
     <title>🛠 Panel Administratora</title>
@@ -95,19 +121,78 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION
       <th>Ilość</th>
       <th>Stan</th>
       <th>Edytuj</th>
+      <th>Skasuj</th>
     </tr>
   </thead>
-  <tbody>
+  
+
+ <tbody>
+<?php
+$wynik0= mysqli_query($link, "select * from ksiazki where stan=0");
+while ($row = mysqli_fetch_array($wynik0)) {
+
+    echo "
+       
     <tr>
-      <td>Krzyżacy</td>
-      <td>Henryk Sienkiewicz</td>
-      <td>2</td>
+    <td>".$row['tytul']."</td>
+      <td>".$row['autor']."</td>
+      <td>".$row['ilosc']."</td>
       <td>Dostępna</td>
-      <td><a href="./edycja.php"><button type="button" class="btn btn-warning">Edytuj</button></a></td>
-    </tr>
+      <td><a href='./edycja.php?numer=".$row['id_ksiazki']."'><button type='button' class='btn btn-warning'>Edytuj</button></a></td>
+      <td><a href='./edytuj-ksiazke.php?skasuj=".$row['id_ksiazki']."'><button type='button' class='btn btn-danger'>Skasuj</button></a></td>
+</tr>
+   
+    ";
+}
+$wynik0= mysqli_query($link, "select * from ksiazki where stan=1");
+while ($row = mysqli_fetch_array($wynik0)) {
+
+    echo "
+       
     <tr>
-  </tbody>
+    <td>".$row['tytul']."</td>
+      <td>".$row['autor']."</td>
+      <td>".$row['ilosc']."</td>
+      <td>Wypożyczone</td>
+      <td><a href='./edycja.php?numer=".$row['id_ksiazki']."'><button type='button' class='btn btn-warning'>Edytuj</button></a></td>
+      <td><a href='./edytuj-ksiazke.php?skasuj=".$row['id_ksiazki']."'><button type='button' class='btn btn-danger'>Skasuj</button></a></td>
+      
+</tr>
+   
+    ";
+}
+$wynik2= mysqli_query($link, "select * from ksiazki where stan=2");
+while ($row = mysqli_fetch_array($wynik2)) {
+
+    echo "
+       
+    <tr>
+    <td>".$row['tytul']."</td>
+      <td>".$row['autor']."</td>
+      <td>".$row['ilosc']."</td>
+      <td>Niedostępne</td>
+      <td><a href='./edycja.php?numer=".$row['id_ksiazki']."'><button type='button' class='btn btn-warning'>Edytuj</button></a></td>
+      <td><a href='./edytuj-ksiazke.php?skasuj=".$row['id_ksiazki']."'><button type='button' class='btn btn-danger'>Skasuj</button></a></td>
+</tr>
+   
+    ";
+}
+
+
+
+?>
+      </tbody>
+      
+    
+    
+
+ 
+
+
 </table>
+
+
+
             </div>
 
 
